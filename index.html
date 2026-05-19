@@ -64,42 +64,24 @@
   }
   .secret-btn-wrap {
     position: absolute;
-    top: 16px;
+    bottom: 12px;
     left: 16px;
   }
   .secret-btn {
     background: rgba(255,255,255,0.12);
     border: 2px solid rgba(255,255,255,0.25);
     color: white;
-    width: 44px;
-    height: 44px;
+    width: 38px;
+    height: 38px;
     border-radius: 50%;
-    font-size: 20px;
+    font-size: 17px;
     cursor: pointer;
     display: flex; align-items: center; justify-content: center;
     transition: all 0.2s;
     position: relative;
   }
   .secret-btn:hover { background: rgba(255,255,255,0.22); }
-  .remind-badge {
-    display: none;
-    position: absolute;
-    top: -5px;
-    right: -5px;
-    background: #e74c3c;
-    color: white;
-    font-size: 11px;
-    font-weight: 900;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    align-items: center;
-    justify-content: center;
-    border: 2px solid rgba(26,82,118,0.6);
-    line-height: 1;
-    z-index: 1;
-  }
-  .remind-badge.visible { display: flex; }
+  
 
   /* REMINDER BANNER */
   .remind-banner {
@@ -370,6 +352,144 @@
     opacity: 0.45;
     cursor: not-allowed;
     background: #f0f0f0;
+  }
+  .date-card.closed-day {
+    opacity: 0.55;
+    cursor: not-allowed;
+    background: #fdecea;
+    border-color: #f5b7b1;
+  }
+  .date-card.closed-day .d-avail {
+    color: #e74c3c;
+    font-weight: 800;
+  }
+
+  /* DAY MANAGEMENT SECTION */
+  .day-mgmt-section {
+    background: white;
+    border-radius: 16px;
+    border: 1.5px solid var(--border);
+    margin-bottom: 16px;
+    overflow: hidden;
+  }
+  .day-mgmt-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 16px;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.2s;
+  }
+  .day-mgmt-header:hover { background: #f8fbfd; }
+  .day-mgmt-title {
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--danger);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .day-mgmt-body {
+    display: none;
+    padding: 0 16px 16px;
+    border-top: 1.5px solid #fdecea;
+  }
+  .day-mgmt-body.open { display: block; }
+  .day-mgmt-note {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin: 12px 0 10px;
+    line-height: 1.5;
+  }
+  .day-mgmt-input-row {
+    display: flex;
+    gap: 8px;
+    align-items: stretch;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+  }
+  .day-mgmt-input {
+    flex: 1;
+    min-width: 120px;
+    padding: 10px 14px;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 15px;
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    outline: none;
+    color: var(--text);
+    background: #f8fbfd;
+    transition: border 0.2s;
+  }
+  .day-mgmt-input:focus { border-color: var(--danger); }
+  .day-mgmt-reason {
+    flex: 2;
+    min-width: 140px;
+  }
+  .btn-close-day {
+    padding: 10px 18px;
+    background: var(--danger);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 14px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+    box-shadow: 0 3px 10px rgba(231,76,60,0.3);
+  }
+  .btn-close-day:hover { background: #c0392b; }
+  .closed-days-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .closed-day-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #fdecea;
+    border: 1.5px solid #f5b7b1;
+    border-radius: 10px;
+    padding: 10px 14px;
+    gap: 10px;
+  }
+  .closed-day-info { display: flex; flex-direction: column; gap: 2px; }
+  .closed-day-date { font-size: 14px; font-weight: 800; color: var(--danger); }
+  .closed-day-reason { font-size: 12px; color: var(--text-muted); font-weight: 600; }
+  .btn-open-day {
+    background: white;
+    color: var(--success);
+    border: 1.5px solid var(--success);
+    border-radius: 50px;
+    padding: 7px 14px;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 12px;
+    font-weight: 800;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s;
+    flex-shrink: 0;
+  }
+  .btn-open-day:hover { background: var(--success); color: white; }
+  .no-closed-days {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 13px;
+    padding: 12px 0;
+    font-weight: 600;
+  }
+  .closed-days-badge {
+    background: var(--danger);
+    color: white;
+    border-radius: 50px;
+    padding: 2px 8px;
+    font-size: 12px;
+    font-weight: 800;
+    line-height: 1.4;
   }
   .date-card.today-card {
     border-color: var(--accent);
@@ -1376,6 +1496,156 @@
     display: block;
   }
 
+  /* EXPORT BUTTONS */
+  .export-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+  }
+  .btn-export {
+    flex: 1;
+    min-width: 120px;
+    padding: 11px 16px;
+    border: none;
+    border-radius: 50px;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 14px;
+    font-weight: 800;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: all 0.2s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+  .btn-export-excel {
+    background: linear-gradient(135deg, #1d6f42, #27ae60);
+    color: white;
+  }
+  .btn-export-excel:hover { opacity: 0.88; transform: translateY(-1px); }
+  .btn-export-pdf {
+    background: linear-gradient(135deg, #c0392b, #e74c3c);
+    color: white;
+  }
+  .btn-export-pdf:hover { opacity: 0.88; transform: translateY(-1px); }
+
+  /* CANCEL BOOKING MODAL */
+  .cancel-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    z-index: 4000;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(6px);
+    padding: 16px;
+  }
+  .cancel-modal.open { display: flex; }
+  .cancel-box {
+    background: white;
+    border-radius: 22px;
+    padding: 36px 28px;
+    text-align: center;
+    width: 100%;
+    max-width: 380px;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.3);
+    animation: pop 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  }
+  .cancel-box .cb-icon { font-size: 56px; display: block; margin-bottom: 12px; }
+  .cancel-box h3 { font-size: 22px; font-weight: 900; color: var(--primary); margin-bottom: 8px; }
+  .cancel-box p { font-size: 15px; color: var(--text-muted); margin-bottom: 20px; line-height: 1.6; }
+  .cancel-search-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  .cancel-search-row input {
+    flex: 1;
+    padding: 13px 16px;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 16px;
+    border: 2px solid var(--border);
+    border-radius: 50px;
+    outline: none;
+    text-align: right;
+    transition: border 0.2s;
+  }
+  .cancel-search-row input:focus { border-color: var(--primary-light); }
+  .cancel-search-btn {
+    padding: 13px 18px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 15px;
+    font-weight: 800;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s;
+  }
+  .cancel-search-btn:hover { background: var(--primary-light); }
+  .cancel-result {
+    background: var(--bg);
+    border-radius: 16px;
+    padding: 16px;
+    margin-bottom: 16px;
+    text-align: right;
+    display: none;
+  }
+  .cancel-result.show { display: block; }
+  .cancel-result-name { font-size: 18px; font-weight: 900; color: var(--text); margin-bottom: 8px; }
+  .cancel-result-detail { font-size: 14px; color: var(--text-muted); font-weight: 600; margin-bottom: 4px; }
+  .cancel-err { color: var(--danger); font-size: 14px; font-weight: 700; margin-bottom: 12px; display: none; }
+  .cancel-err.show { display: block; }
+  .cancel-confirm-btn {
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(135deg, var(--danger), #c0392b);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 17px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 16px rgba(231,76,60,0.35);
+    margin-bottom: 10px;
+    display: none;
+  }
+  .cancel-confirm-btn.show { display: block; }
+  .cancel-confirm-btn:hover { transform: translateY(-1px); }
+  .cancel-done {
+    background: #eafaf1;
+    border-radius: 14px;
+    padding: 16px;
+    color: var(--success);
+    font-size: 16px;
+    font-weight: 800;
+    margin-bottom: 12px;
+    display: none;
+  }
+  .cancel-done.show { display: block; }
+
+  /* PRINT STYLES */
+  @media print {
+    header, .steps, .admin-overlay, .pin-modal, .cancel-modal, .confirm-modal,
+    .secret-btn-wrap, .export-row, .admin-tabs, .admin-search-row,
+    .remind-banner, .analytics-toggle, .analytics-panel, .bc-actions,
+    .admin-header button { display: none !important; }
+    body { background: white; font-size: 13px; }
+    .admin-overlay { display: block !important; position: static !important; background: none !important; padding: 0 !important; }
+    .admin-panel { box-shadow: none !important; border-radius: 0 !important; }
+    .admin-header { background: #1a5276 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .booking-card { break-inside: avoid; border: 1px solid #ccc !important; margin-bottom: 6px !important; }
+    .admin-stats { display: grid !important; }
+    .container { display: none; }
+  }
+
 </style>
 </head>
 <body>
@@ -1383,10 +1653,14 @@
 <header>
   <div class="secret-btn-wrap">
     <button class="secret-btn" onclick="openPinModal()" title="لوحة السكرتير">⚙️</button>
-    <span class="remind-badge" id="remindBadge"></span>
   </div>
   <h1>عيادة المسالك البولية</h1>
   <p>احجز موعدك بسهولة • مساءً ٤:٠٠ - ٩:٠٠</p>
+  <div style="margin-top:10px;">
+    <button onclick="openCancelModal()" style="background:rgba(255,255,255,0.15);border:2px solid rgba(255,255,255,0.35);color:white;padding:8px 20px;border-radius:50px;font-family:'Tajawal',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.25)'" onmouseout="this.style.background='rgba(255,255,255,0.15)'">
+      ❌ إلغاء موعدي
+    </button>
+  </div>
 </header>
 
 <div class="container">
@@ -1417,6 +1691,12 @@
         <label>رقم الجوال <span class="req">*</span></label>
         <input type="tel" id="patientPhone" placeholder="07XXXXXXXXX" maxlength="11" dir="ltr" oninput="clearErr('phoneErr',this)">
         <div class="field-error" id="phoneErr">يجب أن يكون الرقم ١١ خانة ويبدأ بـ 07</div>
+      </div>
+
+      <div class="form-group">
+        <label>العمر <span class="req">*</span></label>
+        <input type="tel" id="patientAge" placeholder="مثال: ٣٥" maxlength="3" dir="ltr" oninput="clearErr('ageErr',this)">
+        <div class="field-error" id="ageErr">يرجى إدخال عمر صحيح (١ — ١٢٠)</div>
       </div>
 
       <div class="form-group">
@@ -1555,8 +1835,16 @@
         يرجى الحضور قبل ١٥ دقيقة من موعدك
       </div>
 
-      <button class="btn btn-primary" onclick="newBooking()">
+      <button class="btn" id="waConfirmBtn" onclick="sendWAConfirmation()" style="background:#25D366;color:white;box-shadow:0 6px 20px rgba(37,211,102,0.35);margin-bottom:10px;">
+        💬 إرسال تأكيد على واتساب
+      </button>
+
+      <button class="btn btn-primary" onclick="newBooking()" style="margin-bottom:10px;">
         ➕ حجز موعد آخر
+      </button>
+
+      <button class="btn" onclick="openCancelModal()" style="background:#fdecea;color:#e74c3c;border:2px solid #f5b7b1;font-size:16px;">
+        ❌ إلغاء هذا الموعد
       </button>
     </div>
   </div>
@@ -1613,6 +1901,28 @@
         <div class="remind-banner-list" id="remindBannerList"></div>
       </div>
 
+      <!-- DAY MANAGEMENT -->
+      <div class="day-mgmt-section">
+        <div class="day-mgmt-header" onclick="toggleDayMgmt()">
+          <div class="day-mgmt-title">
+            🔒 إغلاق يوم / إجازة طارئة
+            <span class="closed-days-badge" id="closedDaysBadge" style="display:none"></span>
+          </div>
+          <span id="dayMgmtArrow" style="color:var(--danger);font-size:14px;">▼</span>
+        </div>
+        <div class="day-mgmt-body" id="dayMgmtBody">
+          <div class="day-mgmt-note">
+            📌 اختر يوماً لإغلاقه — لن يتمكن أي مريض من الحجز فيه. يمكنك فتحه مجدداً في أي وقت.
+          </div>
+          <div class="day-mgmt-input-row">
+            <input type="date" id="closeDayInput" class="day-mgmt-input" min="">
+            <input type="text" id="closeDayReason" class="day-mgmt-input day-mgmt-reason" placeholder="السبب (اختياري): إجازة، ظرف طارئ...">
+            <button class="btn-close-day" onclick="addClosedDay()">🔒 إغلاق</button>
+          </div>
+          <div class="closed-days-list" id="closedDaysList"></div>
+        </div>
+      </div>
+
       <!-- ANALYTICS TOGGLE -->
       <button class="analytics-toggle" id="analyticsToggle" onclick="toggleAnalytics()">
         <span>📊 تقرير أداء العيادة</span>
@@ -1626,6 +1936,12 @@
       <!-- SEARCH -->
       <div class="admin-search-row">
         <input class="admin-search" type="text" id="adminSearch" placeholder="🔍  بحث بالاسم أو رقم الجوال..." oninput="renderAdmin()">
+      </div>
+
+      <!-- EXPORT BUTTONS -->
+      <div class="export-row">
+        <button class="btn-export btn-export-excel" onclick="exportExcel()">📊 تصدير Excel</button>
+        <button class="btn-export btn-export-pdf" onclick="exportPDF()">🖨️ طباعة / PDF</button>
       </div>
 
       <!-- TABS -->
@@ -1657,6 +1973,28 @@
   </div>
 </div>
 
+<!-- CANCEL BOOKING MODAL (for patient self-cancel) -->
+<div class="cancel-modal" id="cancelModal">
+  <div class="cancel-box">
+    <span class="cb-icon">📅</span>
+    <h3>إلغاء الموعد</h3>
+    <p>أدخل رقم جوالك لإلغاء موعدك</p>
+    <div class="cancel-search-row">
+      <input type="tel" id="cancelPhone" placeholder="07XXXXXXXXX" maxlength="11" dir="ltr" oninput="cancelErr('')">
+      <button class="cancel-search-btn" onclick="findBookingToCancel()">بحث</button>
+    </div>
+    <div class="cancel-err" id="cancelErr"></div>
+    <div class="cancel-result" id="cancelResult">
+      <div class="cancel-result-name" id="cancelResultName"></div>
+      <div class="cancel-result-detail" id="cancelResultDate"></div>
+      <div class="cancel-result-detail" id="cancelResultSlot"></div>
+    </div>
+    <div class="cancel-done" id="cancelDone">✅ تم إلغاء موعدك بنجاح</div>
+    <button class="cancel-confirm-btn" id="cancelConfirmBtn" onclick="doPatientCancel()">تأكيد الإلغاء</button>
+    <button class="btn btn-secondary" onclick="closeCancelModal()" style="width:100%;padding:12px;margin-top:4px;">رجوع</button>
+  </div>
+</div>
+
 <script>
 // ===================== DATA =====================
 const SLOTS_PER_DAY = 5;
@@ -1665,6 +2003,7 @@ const TIME_SLOTS = ['4:00 م','4:45 م','5:30 م','6:15 م','7:00 م','7:45 م',
 // We'll pick 5 per day based on availability
 
 let bookings = [];
+let closedDays = []; // [{date: 'YYYY-MM-DD', reason: '...'}]
 let selectedDate = null;
 let selectedSlot = null;
 let visitType = null;
@@ -1677,6 +2016,15 @@ function saveBookings() {
 }
 function loadBookings() {
   try { bookings = JSON.parse(localStorage.getItem('clinic_bookings') || '[]'); } catch(e) { bookings = []; }
+}
+function saveClosedDays() {
+  try { localStorage.setItem('clinic_closed_days', JSON.stringify(closedDays)); } catch(e) {}
+}
+function loadClosedDays() {
+  try { closedDays = JSON.parse(localStorage.getItem('clinic_closed_days') || '[]'); } catch(e) { closedDays = []; }
+}
+function isDayClosed(dateStr) {
+  return closedDays.some(c => c.date === dateStr);
 }
 
 function toArabicNum(n) {
@@ -1772,8 +2120,10 @@ function clearErr(id, input) {
 function goToStep2() {
   const name = document.getElementById('patientName').value.trim();
   const phone = document.getElementById('patientPhone').value.trim();
+  const age = document.getElementById('patientAge').value.trim();
   const nameInput = document.getElementById('patientName');
   const phoneInput = document.getElementById('patientPhone');
+  const ageInput = document.getElementById('patientAge');
   let valid = true;
 
   if (!name) {
@@ -1786,11 +2136,31 @@ function goToStep2() {
     phoneInput.classList.add('invalid');
     valid = false;
   }
+  const ageNum = parseInt(age);
+  if (!age || isNaN(ageNum) || ageNum < 1 || ageNum > 120) {
+    document.getElementById('ageErr').classList.add('show');
+    ageInput.classList.add('invalid');
+    valid = false;
+  }
   if (!visitType) {
     document.getElementById('visitErr').classList.add('show');
     valid = false;
   }
   if (!valid) { return; }
+
+  // ── منع الحجز المتكرر: نفس الرقم لا يحجز أكثر من موعد واحد قادم ──
+  const dupBookings = bookings.filter(b =>
+    b.phone === phone &&
+    (!b.status || b.status === 'upcoming')
+  );
+  if (dupBookings.length > 0) {
+    const d = dupBookings[0];
+    document.getElementById('phoneErr').textContent =
+      `⚠️ هذا الرقم لديه حجز قائم بالفعل (${formatDate(d.date)} — ${d.slot}). يُرجى إلغاء الحجز القديم أولاً.`;
+    document.getElementById('phoneErr').classList.add('show');
+    phoneInput.classList.add('invalid');
+    return;
+  }
 
   document.getElementById('step1').style.display = 'none';
   document.getElementById('step2').style.display = '';
@@ -1811,17 +2181,26 @@ function renderDates() {
     const availCount = SLOTS_PER_DAY - dayBookings.length;
     const isFull = availCount <= 0;
     const isToday = dateStr === todayStr;
+    const isClosed = isDayClosed(dateStr);
 
     const div = document.createElement('div');
-    div.className = 'date-card' + (isFull ? ' full' : '') + (isToday ? ' today-card' : '');
+    div.className = 'date-card'
+      + (isFull && !isClosed ? ' full' : '')
+      + (isClosed ? ' closed-day' : '')
+      + (isToday ? ' today-card' : '');
     if (dateStr === selectedDate) div.classList.add('selected');
+
+    let availLabel;
+    if (isClosed) availLabel = '🔒 مغلق';
+    else if (isFull) availLabel = 'ممتلئ';
+    else availLabel = toArabicNum(availCount) + ' متاح';
 
     div.innerHTML = `
       <div class="d-name">${shortDay(dateStr)}</div>
       <div class="d-num">${toArabicNum(d.getDate())}</div>
-      <div class="d-avail">${isFull ? 'ممتلئ' : toArabicNum(availCount) + ' متاح'}</div>
+      <div class="d-avail">${availLabel}</div>
     `;
-    if (!isFull) div.onclick = () => selectDate(dateStr);
+    if (!isFull && !isClosed) div.onclick = () => selectDate(dateStr);
     container.appendChild(div);
   });
 
@@ -1834,6 +2213,7 @@ function selectDate(dateStr) {
     renderDates(); // refresh the calendar to drop the now-invalid date
     return;
   }
+  if (isDayClosed(dateStr)) return; // blocked day
   selectedDate = dateStr;
   selectedSlot = null;
   document.getElementById('step2Btns').style.display = 'none';
@@ -1878,11 +2258,13 @@ function goToStep3() {
 
   const name = document.getElementById('patientName').value.trim();
   const phone = document.getElementById('patientPhone').value.trim();
+  const age = document.getElementById('patientAge').value.trim();
   const vLabel = visitType === 'first' ? 'فحص أول مرة' : 'مراجعة';
 
   const summaryHTML = `
     <div class="summary-row"><span class="summary-label">الاسم</span><span class="summary-value">${name}</span></div>
     <div class="summary-row"><span class="summary-label">الجوال</span><span class="summary-value">${phone}</span></div>
+    <div class="summary-row"><span class="summary-label">العمر</span><span class="summary-value">${age} سنة</span></div>
     <div class="summary-row"><span class="summary-label">نوع الزيارة</span><span class="summary-value">${vLabel}</span></div>
     <div class="summary-row"><span class="summary-label">التاريخ</span><span class="summary-value">${formatDate(selectedDate)}</span></div>
     <div class="summary-row"><span class="summary-label">الوقت</span><span class="summary-value">${selectedSlot}</span></div>
@@ -1918,10 +2300,22 @@ function confirmBooking() {
     return;
   }
 
+  // ── حماية من الحجز المزدوج: تحقق أن الوقت لا يزال متاحاً عند الحفظ ──
+  const slotAlreadyTaken = bookings.some(b => b.date === selectedDate && b.slot === selectedSlot);
+  if (slotAlreadyTaken) {
+    btn.disabled = false;
+    content.innerHTML = '✅ إنهاء الحجز';
+    alert('⚠️ عذراً، هذا الوقت تم حجزه للتو من شخص آخر. يرجى اختيار وقت آخر.');
+    backToStep2();
+    renderSlots();
+    return;
+  }
+
   // Simulate a brief async save (replace with real API call if needed)
   setTimeout(() => {
     const name = document.getElementById('patientName').value.trim();
     const phone = document.getElementById('patientPhone').value.trim();
+    const age = document.getElementById('patientAge').value.trim();
     const num = generateBookingNumber();
 
     const booking = {
@@ -1929,6 +2323,7 @@ function confirmBooking() {
       displayNum: num,
       name,
       phone,
+      age,
       visitType,
       date: selectedDate,
       slot: selectedSlot,
@@ -1948,6 +2343,7 @@ function confirmBooking() {
     const summaryHTML = `
       <div class="summary-row"><span class="summary-label">الاسم</span><span class="summary-value">${name}</span></div>
       <div class="summary-row"><span class="summary-label">الجوال</span><span class="summary-value">${phone}</span></div>
+      <div class="summary-row"><span class="summary-label">العمر</span><span class="summary-value">${age} سنة</span></div>
       <div class="summary-row"><span class="summary-label">نوع الزيارة</span><span class="summary-value">${vLabel}</span></div>
       <div class="summary-row"><span class="summary-label">التاريخ</span><span class="summary-value">${formatDate(selectedDate)}</span></div>
       <div class="summary-row"><span class="summary-label">الوقت</span><span class="summary-value">${selectedSlot}</span></div>
@@ -1962,9 +2358,34 @@ function confirmBooking() {
   }, 800);
 }
 
+function sendWAConfirmation() {
+  const booking = bookings.find(b => b.id === window._lastBookingId);
+  if (!booking) return;
+  const waPhone = booking.phone.replace(/^0/, '964');
+  const vLabel = booking.visitType === 'first' ? 'فحص أول مرة' : 'مراجعة';
+  const msg = encodeURIComponent(
+    `✅ تأكيد حجزك في عيادة المسالك البولية\n\n` +
+    `👤 الاسم: ${booking.name}\n` +
+    `📅 التاريخ: ${formatDate(booking.date)}\n` +
+    `🕐 الوقت: ${booking.slot}\n` +
+    `🏥 نوع الزيارة: ${vLabel}\n` +
+    `🔢 رقم الحجز: ${booking.displayNum}\n\n` +
+    `يرجى الحضور قبل ١٥ دقيقة. شكراً 🙏\n\n` +
+    `❌ لإلغاء الموعد: افتح صفحة الحجز واضغط "إلغاء موعدي"`
+  );
+  const btn = document.getElementById('waConfirmBtn');
+  window.open(`https://wa.me/${waPhone}?text=${msg}`, '_blank');
+  btn.textContent = '✅ تم إرسال التأكيد';
+  btn.style.background = '#eafaf1';
+  btn.style.color = '#27ae60';
+  btn.style.boxShadow = 'none';
+  btn.onclick = null;
+}
+
 function newBooking() {
   document.getElementById('patientName').value = '';
   document.getElementById('patientPhone').value = '';
+  document.getElementById('patientAge').value = '';
   visitType = null;
   selectedDate = null;
   selectedSlot = null;
@@ -2068,6 +2489,16 @@ function updateStatus(id, status) {
   renderAdmin();
   // Also refresh slots in main page if open
   if (selectedDate) renderSlots();
+
+  // Auto-delete after marking as attended — after 2.5s so staff sees the confirmation
+  if (status === 'attended') {
+    setTimeout(() => {
+      bookings = bookings.filter(b => b.id !== id);
+      saveBookings();
+      renderAdmin();
+      if (selectedDate) { renderDates(); renderSlots(); }
+    }, 2500);
+  }
 }
 
 function askDelete(id, name) {
@@ -2188,7 +2619,7 @@ function renderAdmin() {
       <div class="bc-top">
         <div>
           <div class="bc-name">${b.name}</div>
-          <div class="bc-phone">${b.phone}</div>
+          <div class="bc-phone">${b.phone}${b.age ? ' · ' + b.age + ' سنة' : ''}</div>
         </div>
         <span class="bc-tag ${statusClass}">${statusLabel}</span>
       </div>
@@ -2251,15 +2682,7 @@ function markReminded(id) {
 }
 
 function updateRemindBadge() {
-  const count = getUnremindedTomorrow().length;
-  const badge = document.getElementById('remindBadge');
-  if (!badge) return;
-  if (count > 0) {
-    badge.textContent = count;
-    badge.classList.add('visible');
-  } else {
-    badge.classList.remove('visible');
-  }
+  // Badge removed from UI — kept as no-op for compatibility
 }
 
 function updateRemindBanner() {
@@ -2468,10 +2891,207 @@ function resetQuiz() {
   if (btn) btn.classList.remove('open');
 }
 
+// ===================== CLOSED DAYS MANAGEMENT =====================
+function toggleDayMgmt() {
+  const body = document.getElementById('dayMgmtBody');
+  const arrow = document.getElementById('dayMgmtArrow');
+  const isOpen = body.classList.toggle('open');
+  arrow.textContent = isOpen ? '▲' : '▼';
+  if (isOpen) {
+    // Set min date for input to tomorrow
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    document.getElementById('closeDayInput').min = localDateStr(tomorrow);
+    renderClosedDaysList();
+  }
+}
+
+function addClosedDay() {
+  const dateInput = document.getElementById('closeDayInput');
+  const reasonInput = document.getElementById('closeDayReason');
+  const dateVal = dateInput.value;
+  const reasonVal = reasonInput.value.trim();
+
+  if (!dateVal) {
+    dateInput.style.borderColor = 'var(--danger)';
+    setTimeout(() => dateInput.style.borderColor = '', 1500);
+    return;
+  }
+  // Don't allow past dates or today
+  if (dateVal <= localDateStr(new Date())) {
+    dateInput.style.borderColor = 'var(--danger)';
+    setTimeout(() => dateInput.style.borderColor = '', 1500);
+    return;
+  }
+  // Don't duplicate
+  if (isDayClosed(dateVal)) {
+    dateInput.style.borderColor = 'var(--warning)';
+    setTimeout(() => dateInput.style.borderColor = '', 1500);
+    return;
+  }
+
+  closedDays.push({ date: dateVal, reason: reasonVal || 'إجازة' });
+  saveClosedDays();
+  dateInput.value = '';
+  reasonInput.value = '';
+  renderClosedDaysList();
+  updateClosedDaysBadge();
+}
+
+function removeClosedDay(dateStr) {
+  closedDays = closedDays.filter(c => c.date !== dateStr);
+  saveClosedDays();
+  renderClosedDaysList();
+  updateClosedDaysBadge();
+}
+
+function renderClosedDaysList() {
+  const list = document.getElementById('closedDaysList');
+  if (!list) return;
+  // Filter: only show future closed days
+  const todayStr = localDateStr(new Date());
+  const futureClosed = closedDays.filter(c => c.date > todayStr)
+    .sort((a,b) => a.date.localeCompare(b.date));
+
+  if (futureClosed.length === 0) {
+    list.innerHTML = '<div class="no-closed-days">✅ لا توجد أيام مغلقة حالياً</div>';
+    return;
+  }
+  list.innerHTML = futureClosed.map(c => `
+    <div class="closed-day-row">
+      <div class="closed-day-info">
+        <div class="closed-day-date">🔒 ${formatDate(c.date)}</div>
+        <div class="closed-day-reason">${c.reason}</div>
+      </div>
+      <button class="btn-open-day" onclick="removeClosedDay('${c.date}')">🔓 فتح</button>
+    </div>
+  `).join('');
+}
+
+function updateClosedDaysBadge() {
+  const todayStr = localDateStr(new Date());
+  const count = closedDays.filter(c => c.date > todayStr).length;
+  const badge = document.getElementById('closedDaysBadge');
+  if (!badge) return;
+  if (count > 0) {
+    badge.style.display = '';
+    badge.textContent = toArabicNum(count);
+  } else {
+    badge.style.display = 'none';
+  }
+}
+
 // Initialize
 loadBookings();
+loadClosedDays();
 updateRemindBadge();
+updateClosedDaysBadge();
 renderDates();
+
+// ===================== EXPORT EXCEL =====================
+function exportExcel() {
+  const headers = ['الاسم','رقم الجوال','العمر','نوع الزيارة','التاريخ','الوقت','الحالة','رقم الحجز'];
+  const statusMap = { upcoming: 'قادم', attended: 'حضر', cancelled: 'ملغى' };
+  const visitMap  = { first: 'أول مرة', review: 'مراجعة' };
+
+  const rows = bookings.map(b => [
+    b.name,
+    b.phone,
+    b.age || '',
+    visitMap[b.visitType] || b.visitType,
+    b.date,
+    b.slot,
+    statusMap[b.status] || 'قادم',
+    b.displayNum || ''
+  ]);
+
+  // BOM for Arabic UTF-8 in Excel
+  let csv = '\uFEFF' + headers.join(',') + '\n';
+  rows.forEach(r => {
+    csv += r.map(v => `"${String(v).replace(/"/g,'""')}"`).join(',') + '\n';
+  });
+
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  const now  = new Date();
+  a.href     = url;
+  a.download = `مرضى_العيادة_${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}.csv`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+// ===================== EXPORT PDF (PRINT) =====================
+function exportPDF() {
+  // Force admin panel visible for print
+  document.getElementById('adminOverlay').classList.add('open');
+  setTimeout(() => window.print(), 150);
+}
+
+// ===================== PATIENT SELF-CANCEL =====================
+let _cancelTargetId = null;
+
+function openCancelModal() {
+  _cancelTargetId = null;
+  document.getElementById('cancelPhone').value = '';
+  document.getElementById('cancelResult').classList.remove('show');
+  document.getElementById('cancelConfirmBtn').classList.remove('show');
+  document.getElementById('cancelDone').classList.remove('show');
+  document.getElementById('cancelErr').classList.remove('show');
+  document.getElementById('cancelModal').classList.add('open');
+}
+
+function closeCancelModal() {
+  document.getElementById('cancelModal').classList.remove('open');
+}
+
+function cancelErr(msg) {
+  const el = document.getElementById('cancelErr');
+  if (msg) { el.textContent = msg; el.classList.add('show'); }
+  else { el.classList.remove('show'); }
+}
+
+function findBookingToCancel() {
+  const phone = document.getElementById('cancelPhone').value.trim();
+  if (!phone || phone.length !== 11 || !phone.startsWith('07')) {
+    cancelErr('يرجى إدخال رقم جوال صحيح (١١ خانة يبدأ بـ 07)');
+    return;
+  }
+  const match = bookings.find(b => b.phone === phone && (!b.status || b.status === 'upcoming'));
+  if (!match) {
+    cancelErr('لا يوجد حجز نشط بهذا الرقم');
+    document.getElementById('cancelResult').classList.remove('show');
+    document.getElementById('cancelConfirmBtn').classList.remove('show');
+    return;
+  }
+  cancelErr('');
+  _cancelTargetId = match.id;
+  document.getElementById('cancelResultName').textContent  = '👤 ' + match.name;
+  document.getElementById('cancelResultDate').textContent  = '📅 ' + formatDate(match.date);
+  document.getElementById('cancelResultSlot').textContent  = '🕐 ' + match.slot;
+  document.getElementById('cancelResult').classList.add('show');
+  document.getElementById('cancelConfirmBtn').classList.add('show');
+  document.getElementById('cancelDone').classList.remove('show');
+}
+
+function doPatientCancel() {
+  if (!_cancelTargetId) return;
+  const idx = bookings.findIndex(b => b.id === _cancelTargetId);
+  if (idx === -1) return;
+  bookings[idx].status = 'cancelled';
+  saveBookings();
+  document.getElementById('cancelConfirmBtn').classList.remove('show');
+  document.getElementById('cancelResult').classList.remove('show');
+  document.getElementById('cancelDone').classList.add('show');
+  _cancelTargetId = null;
+  // Close automatically after 2.5s
+  setTimeout(() => closeCancelModal(), 2500);
+}
+
+// Allow opening cancel modal from URL hash (for WA link)
+if (location.hash === '#cancel') openCancelModal();
 </script>
 </body>
 </html>

@@ -1,0 +1,2477 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>عيادة المسالك البولية - حجز موعد</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #1a5276;
+    --primary-light: #2e86c1;
+    --primary-pale: #d6eaf8;
+    --accent: #1abc9c;
+    --accent-dark: #17a589;
+    --bg: #eaf4fb;
+    --surface: #ffffff;
+    --text: #1a2a3a;
+    --text-muted: #5d7a8a;
+    --border: #c0d9ea;
+    --danger: #e74c3c;
+    --warning: #f39c12;
+    --success: #27ae60;
+    --radius: 18px;
+    --shadow: 0 4px 24px rgba(26,82,118,0.10);
+    --shadow-lg: 0 8px 40px rgba(26,82,118,0.16);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Tajawal', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    font-size: 18px;
+  }
+
+  /* HEADER */
+  header {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+    color: white;
+    padding: 28px 24px 22px;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 4px 20px rgba(26,82,118,0.25);
+  }
+  header .clinic-icon {
+    font-size: 52px;
+    display: block;
+    margin-bottom: 8px;
+    filter: drop-shadow(0 2px 8px rgba(0,0,0,0.2));
+  }
+  header h1 {
+    font-size: 32px;
+    font-weight: 900;
+    letter-spacing: -0.5px;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  }
+  header p {
+    font-size: 17px;
+    opacity: 0.88;
+    margin-top: 6px;
+    font-weight: 400;
+  }
+  .secret-btn-wrap {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+  }
+  .secret-btn {
+    background: rgba(255,255,255,0.12);
+    border: 2px solid rgba(255,255,255,0.25);
+    color: white;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+    position: relative;
+  }
+  .secret-btn:hover { background: rgba(255,255,255,0.22); }
+  .remind-badge {
+    display: none;
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #e74c3c;
+    color: white;
+    font-size: 11px;
+    font-weight: 900;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid rgba(26,82,118,0.6);
+    line-height: 1;
+    z-index: 1;
+  }
+  .remind-badge.visible { display: flex; }
+
+  /* REMINDER BANNER */
+  .remind-banner {
+    display: none;
+    background: #fff8e1;
+    border: 2px solid #f39c12;
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin-bottom: 16px;
+    gap: 10px;
+    flex-direction: column;
+  }
+  .remind-banner.visible { display: flex; }
+  .remind-banner-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 15px;
+    font-weight: 800;
+    color: #b7770d;
+  }
+  .remind-banner-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .remind-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: white;
+    border-radius: 10px;
+    padding: 10px 14px;
+    gap: 10px;
+    border: 1.5px solid #f9d49a;
+  }
+  .remind-row-info { display: flex; flex-direction: column; gap: 2px; }
+  .remind-row-name { font-size: 14px; font-weight: 800; color: var(--text); }
+  .remind-row-time { font-size: 12px; color: var(--text-muted); font-weight: 600; }
+  .btn-remind-wa {
+    background: #25D366;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 8px 14px;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 13px;
+    font-weight: 800;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    transition: all 0.2s;
+    box-shadow: 0 2px 8px rgba(37,211,102,0.3);
+  }
+  .btn-remind-wa:hover { background: #1ebe5d; transform: translateY(-1px); }
+  .btn-remind-wa.sent {
+    background: #eafaf1;
+    color: var(--success);
+    box-shadow: none;
+    cursor: default;
+    transform: none;
+  }
+
+  /* MAIN CONTAINER */
+  .container {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 24px 16px 60px;
+  }
+
+  /* STEP INDICATOR */
+  .steps {
+    display: flex;
+    justify-content: center;
+    gap: 0;
+    margin-bottom: 28px;
+    background: var(--surface);
+    border-radius: 60px;
+    padding: 6px;
+    box-shadow: var(--shadow);
+  }
+  .step-item {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 13px 8px;
+    border-radius: 50px;
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--text-muted);
+    transition: all 0.3s;
+    cursor: default;
+    line-height: 1;
+    gap: 0;
+  }
+  .step-item.active {
+    background: var(--primary);
+    color: white;
+    box-shadow: 0 2px 12px rgba(26,82,118,0.3);
+  }
+  .step-item.done {
+    color: var(--accent);
+  }
+  .step-num {
+    display: none;
+  }
+
+  /* CARD */
+  .card {
+    background: var(--surface);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 32px 28px;
+    margin-bottom: 20px;
+    animation: fadeUp 0.4s ease;
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .card-title {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--primary);
+    margin-bottom: 24px;
+    padding-bottom: 14px;
+    border-bottom: 2px solid var(--primary-pale);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    text-align: center;
+  }
+  .card-title span { font-size: 24px; line-height: 1; display: flex; align-items: center; }
+
+  /* FORM */
+  .form-group { margin-bottom: 22px; }
+  label {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 10px;
+    justify-content: flex-end;
+  }
+  label .req { color: var(--danger); font-size: 18px; line-height: 1; }
+
+  input[type="text"], input[type="tel"], select {
+    width: 100%;
+    padding: 16px 20px;
+    font-size: 18px;
+    font-family: 'Tajawal', sans-serif;
+    border: 2px solid var(--border);
+    border-radius: 50px;
+    background: #f8fbfd;
+    color: var(--text);
+    transition: border 0.2s, box-shadow 0.2s;
+    outline: none;
+    -webkit-appearance: none;
+    text-align: right;
+  }
+  input:focus, select:focus {
+    border-color: var(--primary-light);
+    box-shadow: 0 0 0 4px rgba(46,134,193,0.12);
+    background: white;
+  }
+
+  /* VISIT TYPE */
+  .visit-type-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  .visit-option {
+    border: 2px solid var(--border);
+    border-radius: 18px;
+    padding: 22px 14px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.22s;
+    background: #f8fbfd;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+  .visit-option:hover {
+    border-color: var(--primary-light);
+    background: var(--primary-pale);
+    transform: translateY(-2px);
+  }
+  .visit-option.selected {
+    border-color: var(--primary);
+    background: var(--primary-pale);
+    box-shadow: 0 0 0 4px rgba(26,82,118,0.10);
+  }
+  .visit-option .v-icon { font-size: 36px; display: flex; align-items: center; justify-content: center; line-height: 1; }
+  .visit-option .v-title { font-size: 17px; font-weight: 800; color: var(--primary); line-height: 1.2; }
+  .visit-option .v-desc { font-size: 13px; color: var(--text-muted); }
+  .visit-option .check {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 22px; height: 22px;
+    background: var(--primary);
+    border-radius: 50%;
+    color: white;
+    font-size: 13px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+  }
+  .visit-option.selected .check { display: flex; }
+
+  /* CALENDAR */
+  .calendar-label {
+    font-size: 19px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 12px;
+  }
+  .dates-scroll {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .dates-scroll::-webkit-scrollbar { display: none; }
+  .date-card {
+    flex: 0 0 86px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border: 2px solid var(--border);
+    border-radius: 18px;
+    padding: 14px 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: #f8fbfd;
+    gap: 2px;
+  }
+  .date-card:hover:not(.full):not(.today-card) {
+    border-color: var(--primary-light);
+    background: var(--primary-pale);
+  }
+  .date-card.selected {
+    border-color: var(--primary);
+    background: var(--primary);
+    color: white;
+    box-shadow: 0 4px 14px rgba(26,82,118,0.25);
+  }
+  .date-card.full {
+    opacity: 0.45;
+    cursor: not-allowed;
+    background: #f0f0f0;
+  }
+  .date-card.today-card {
+    border-color: var(--accent);
+    background: #e8f8f5;
+  }
+  .date-card .d-name { font-size: 12px; font-weight: 700; opacity: 0.75; line-height: 1; }
+  .date-card .d-num  { font-size: 26px; font-weight: 900; line-height: 1.1; }
+  .date-card .d-avail { font-size: 11px; opacity: 0.7; line-height: 1; }
+  .date-card.selected .d-name,
+  .date-card.selected .d-avail { opacity: 0.85; }
+
+  /* TIME SLOTS */
+  .slots-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+    gap: 10px;
+    margin-top: 16px;
+  }
+  .slot {
+    border: 2px solid var(--border);
+    border-radius: 50px;
+    padding: 14px 8px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: #f8fbfd;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--primary);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+  }
+  .slot:hover:not(.taken) {
+    border-color: var(--accent);
+    background: #e8f8f5;
+    transform: translateY(-2px);
+  }
+  .slot.selected {
+    border-color: var(--accent);
+    background: var(--accent);
+    color: white;
+    box-shadow: 0 4px 14px rgba(26,188,156,0.3);
+  }
+  .slot.taken {
+    background: #f5f5f5;
+    color: #bbb;
+    border-color: #e0e0e0;
+    cursor: not-allowed;
+    text-decoration: line-through;
+    font-size: 15px;
+  }
+  .slot-time { display: block; line-height: 1; }
+  .slot-status { font-size: 11px; font-weight: 500; display: block; opacity: 0.7; line-height: 1; }
+
+  .btn {
+    width: 100%;
+    padding: 18px;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 21px;
+    font-weight: 800;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+    color: white;
+    box-shadow: 0 6px 20px rgba(26,82,118,0.3);
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(26,82,118,0.38); }
+  .btn-primary:active { transform: scale(0.97); }
+  .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+  .btn-secondary {
+    background: #eef2f7;
+    color: var(--text-muted);
+    margin-top: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+  .btn-secondary:hover { background: var(--border); }
+
+  /* SUCCESS */
+  .success-card {
+    text-align: center;
+    padding: 40px 28px;
+    position: relative;
+  }
+  .success-icon {
+    font-size: 80px;
+    display: block;
+    margin-bottom: 16px;
+    animation: pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  @keyframes pop {
+    from { transform: scale(0); opacity: 0; }
+    to   { transform: scale(1); opacity: 1; }
+  }
+  .success-title {
+    font-size: 28px;
+    font-weight: 900;
+    color: var(--success);
+    margin-bottom: 8px;
+  }
+  .success-sub {
+    font-size: 18px;
+    color: var(--text-muted);
+    margin-bottom: 28px;
+  }
+  .booking-summary {
+    background: var(--bg);
+    border-radius: 18px;
+    padding: 20px;
+    margin-bottom: 24px;
+    text-align: right;
+  }
+  .summary-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 11px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 16px;
+    gap: 12px;
+  }
+  .summary-row:last-child { border-bottom: none; }
+  .summary-label { color: var(--text-muted); font-weight: 600; white-space: nowrap; }
+  .summary-value { font-weight: 800; color: var(--text); text-align: left; }
+  .booking-num {
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    color: white;
+    border-radius: 50px;
+    padding: 18px 36px;
+    font-size: 36px;
+    font-weight: 900;
+    letter-spacing: 4px;
+    margin-bottom: 16px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 6px 20px rgba(26,82,118,0.3);
+    line-height: 1;
+  }
+
+  /* ADMIN PANEL */
+  .admin-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.65);
+    z-index: 1000;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 16px;
+    overflow-y: auto;
+    backdrop-filter: blur(5px);
+  }
+  .admin-overlay.open { display: flex; }
+  .admin-panel {
+    background: #f4f7fb;
+    border-radius: 22px;
+    width: 100%;
+    max-width: 820px;
+    box-shadow: 0 24px 70px rgba(0,0,0,0.35);
+    animation: slideDown 0.35s ease;
+    margin: auto;
+    overflow: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .admin-header {
+    background: linear-gradient(135deg, #0f2942, #1a5276);
+    color: white;
+    padding: 20px 22px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .admin-header-left { display: flex; align-items: center; gap: 12px; }
+  .admin-header h2 { font-size: 20px; font-weight: 900; }
+  .admin-header .sub-date { font-size: 13px; opacity: 0.7; margin-top: 2px; }
+  .close-btn {
+    background: rgba(255,255,255,0.12);
+    border: 1.5px solid rgba(255,255,255,0.25);
+    color: white;
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s;
+  }
+  .close-btn:hover { background: rgba(255,255,255,0.22); }
+
+  .admin-body { padding: 20px; }
+
+  /* STATS */
+  .admin-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+  .stat-box {
+    background: white;
+    border-radius: 18px;
+    padding: 16px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(26,82,118,0.07);
+    border: 1.5px solid var(--border);
+    gap: 4px;
+  }
+  .stat-num { font-size: 26px; font-weight: 900; color: var(--primary); line-height: 1; }
+  .stat-label { font-size: 11px; color: var(--text-muted); font-weight: 700; line-height: 1.2; text-align: center; }
+  .stat-box.highlight { background: var(--primary); border-color: var(--primary); }
+  .stat-box.highlight .stat-num, .stat-box.highlight .stat-label { color: white; }
+
+  /* SEARCH BAR */
+  .admin-search-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 14px;
+    align-items: center;
+  }
+  .admin-search {
+    flex: 1;
+    padding: 13px 20px;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 15px;
+    border: 2px solid var(--border);
+    border-radius: 50px;
+    background: white;
+    color: var(--text);
+    outline: none;
+    transition: border 0.2s;
+    text-align: right;
+  }
+  .admin-search:focus { border-color: var(--primary-light); }
+
+  /* FILTER TABS */
+  .admin-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+  .tab-btn {
+    padding: 10px 18px;
+    border: none;
+    border-radius: 50px;
+    background: #eef2f7;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 14px;
+    font-weight: 800;
+    cursor: pointer;
+    color: var(--text-muted);
+    transition: all 0.2s;
+    white-space: nowrap;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    line-height: 1;
+  }
+  .tab-btn.active { background: var(--primary); color: white; box-shadow: 0 4px 14px rgba(26,82,118,0.35); }
+  .tab-btn.danger-tab.active { background: var(--danger); color: white; box-shadow: 0 4px 14px rgba(231,76,60,0.35); }
+
+  /* DATE FILTER ROW */
+  .date-filter-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .date-filter-row label { font-size: 14px; color: var(--text-muted); font-weight: 700; white-space: nowrap; }
+  .date-filter-input {
+    padding: 8px 12px;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 14px;
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    background: white;
+    color: var(--text);
+    outline: none;
+  }
+  .date-filter-input:focus { border-color: var(--primary-light); }
+  .clear-date-btn {
+    padding: 8px 14px;
+    background: #fdecea;
+    border: 2px solid #f5b7b1;
+    border-radius: 10px;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--danger);
+    cursor: pointer;
+  }
+
+  /* BOOKING CARDS */
+  .bookings-list { display: flex; flex-direction: column; gap: 10px; }
+  .booking-card {
+    background: white;
+    border-radius: 18px;
+    border: 1.5px solid var(--border);
+    padding: 16px;
+    box-shadow: 0 2px 8px rgba(26,82,118,0.05);
+    transition: box-shadow 0.2s;
+  }
+  .booking-card:hover { box-shadow: 0 4px 16px rgba(26,82,118,0.12); }
+  .booking-card.status-attended { border-right: 4px solid var(--success); }
+  .booking-card.status-cancelled { border-right: 4px solid var(--danger); opacity: 0.65; }
+  .booking-card.status-upcoming { border-right: 4px solid var(--primary-light); }
+
+  .bc-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  .bc-name { font-size: 17px; font-weight: 800; color: var(--text); line-height: 1.2; }
+  .bc-phone { font-size: 13px; color: var(--text-muted); margin-top: 3px; direction: ltr; display: block; }
+
+  .bc-meta {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+    align-items: center;
+  }
+  .bc-tag {
+    padding: 5px 12px;
+    border-radius: 50px;
+    font-size: 12px;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    line-height: 1;
+    white-space: nowrap;
+  }
+  .tag-date { background: var(--primary-pale); color: var(--primary); }
+  .tag-time { background: #e8f8f5; color: var(--accent-dark); }
+  .tag-first { background: #fef9e7; color: #c8900e; }
+  .tag-review { background: #eaf4fb; color: #2471a3; }
+  .tag-status-upcoming { background: #eaf4fb; color: var(--primary); }
+  .tag-status-attended { background: #eafaf1; color: var(--success); }
+  .tag-status-cancelled { background: #fdecea; color: var(--danger); }
+
+  .bc-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .bc-primary-actions {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    align-items: stretch;
+  }
+  .bc-primary-actions .act-btn {
+    flex: 1;
+  }
+  .bc-secondary-actions {
+    display: none;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .bc-secondary-actions.open { display: grid; animation: fadeUp 0.2s ease; }
+  .btn-more {
+    background: #eef2f7;
+    color: var(--text-muted);
+    border: none;
+    border-radius: 50px;
+    width: 48px;
+    min-width: 48px;
+    height: auto;
+    min-height: 44px;
+    font-size: 22px;
+    letter-spacing: 1px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    flex-shrink: 0;
+    font-family: 'Tajawal', sans-serif;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    align-self: stretch;
+    line-height: 1;
+  }
+  .btn-more:hover { background: var(--border); }
+  .act-btn {
+    padding: 12px 14px;
+    border-radius: 50px;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 14px;
+    font-weight: 800;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    line-height: 1;
+  }
+  .act-btn:active { transform: scale(0.96); }
+  .btn-attend { background: var(--success); color: white; box-shadow: 0 4px 14px rgba(39,174,96,0.35); }
+  .btn-attend:hover { background: #219a52; transform: translateY(-1px); }
+  .btn-whatsapp { background: #25D366; color: white; box-shadow: 0 4px 14px rgba(37,211,102,0.3); }
+  .btn-whatsapp:hover { background: #1ebe5d; transform: translateY(-1px); }
+  .btn-cancel-status { background: #fff3e0; color: #e67e22; border: 1.5px solid #f9d49a; }
+  .btn-cancel-status:hover { background: #f39c12; color: white; }
+  .btn-delete { background: #fdecea; color: var(--danger); border: 1.5px solid #f5b7b1; }
+  .btn-delete:hover { background: var(--danger); color: white; }
+  .btn-restore { background: #eaf4fb; color: var(--primary); border: 1.5px solid var(--border); }
+  .btn-restore:hover { background: var(--primary); color: white; }
+
+  .no-bookings {
+    text-align: center;
+    padding: 50px 20px;
+    color: var(--text-muted);
+    font-size: 18px;
+  }
+  .no-bookings .nb-icon { font-size: 48px; display: block; margin-bottom: 12px; }
+
+  /* CONFIRM DELETE MODAL */
+  .confirm-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 3000;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(4px);
+  }
+  .confirm-modal.open { display: flex; }
+  .confirm-box {
+    background: white;
+    border-radius: 18px;
+    padding: 32px 28px;
+    text-align: center;
+    width: 300px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    animation: pop 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  }
+  .confirm-box .ci { font-size: 50px; display: block; margin-bottom: 12px; }
+  .confirm-box h4 { font-size: 20px; font-weight: 800; color: var(--text); margin-bottom: 8px; }
+  .confirm-box p { font-size: 15px; color: var(--text-muted); margin-bottom: 22px; }
+  .confirm-btns { display: flex; gap: 10px; }
+  .confirm-btns button {
+    flex: 1;
+    padding: 14px;
+    border: none;
+    border-radius: 50px;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 17px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+  }
+  .confirm-btns button:active { transform: scale(0.96); }
+  .confirm-yes { background: var(--danger); color: white; box-shadow: 0 4px 14px rgba(231,76,60,0.4); }
+  .confirm-yes:hover { background: #c0392b; transform: translateY(-1px); }
+  .confirm-no { background: #eef2f7; color: var(--text); }
+  .confirm-no:hover { background: var(--border); transform: translateY(-1px); }
+
+  /* PIN MODAL */
+  .pin-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    z-index: 2000;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(6px);
+  }
+  .pin-modal.open { display: flex; }
+  .pin-box {
+    background: white;
+    border-radius: 20px;
+    padding: 36px 28px;
+    text-align: center;
+    width: 320px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    animation: pop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .pin-box h3 { font-size: 22px; font-weight: 800; color: var(--primary); margin-bottom: 8px; }
+  .pin-box p { color: var(--text-muted); font-size: 16px; margin-bottom: 20px; }
+  .pin-dots {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .pin-dot {
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    background: var(--border);
+    transition: background 0.2s;
+  }
+  .pin-dot.filled { background: var(--primary); }
+  .pin-keypad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .key-btn {
+    padding: 16px;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+    background: var(--bg);
+    border: 2px solid var(--border);
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.15s;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+  }
+  .key-btn:hover { background: var(--primary-pale); border-color: var(--primary-light); }
+  .key-btn:active { transform: scale(0.95); }
+  .key-btn.del { font-size: 18px; background: #fdf2f2; border-color: #f5b7b1; color: var(--danger); }
+  .pin-error { color: var(--danger); font-size: 15px; font-weight: 700; min-height: 20px; display: flex; align-items: center; justify-content: center; }
+
+  /* HELPER */
+  .info-box {
+    background: var(--primary-pale);
+    border-right: 4px solid var(--primary);
+    border-radius: 14px;
+    padding: 14px 16px;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    line-height: 1.4;
+  }
+  .info-box span { font-size: 20px; line-height: 1; flex-shrink: 0; }
+
+  .working-hours {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: #e8f8f5;
+    border-radius: 50px;
+    padding: 12px 20px;
+    margin-bottom: 20px;
+    font-size: 15px;
+    color: var(--accent-dark);
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  /* ANALYTICS PANEL */
+  .analytics-toggle {
+    width: 100%;
+    padding: 13px 20px;
+    background: linear-gradient(135deg, #0f2942, #1a5276);
+    color: white;
+    border: none;
+    border-radius: 14px;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 15px;
+    font-weight: 800;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+    transition: all 0.2s;
+  }
+  .analytics-toggle:hover { opacity: 0.9; }
+  .analytics-toggle .toggle-arrow { transition: transform 0.3s; font-size: 12px; }
+  .analytics-toggle.open .toggle-arrow { transform: rotate(180deg); }
+
+  .analytics-panel {
+    display: none;
+    background: linear-gradient(135deg, #f0f6ff, #e8f4fb);
+    border-radius: 16px;
+    padding: 18px;
+    margin-bottom: 16px;
+    border: 1.5px solid var(--primary-pale);
+    animation: fadeUp 0.3s ease;
+  }
+  .analytics-panel.open { display: block; }
+
+  .analytics-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .an-box {
+    background: white;
+    border-radius: 14px;
+    padding: 14px 10px;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(26,82,118,0.08);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+  }
+  .an-icon { font-size: 22px; line-height: 1; }
+  .an-num { font-size: 22px; font-weight: 900; color: var(--primary); line-height: 1; }
+  .an-label { font-size: 11px; color: var(--text-muted); font-weight: 700; line-height: 1.3; text-align: center; }
+  .an-box.green .an-num { color: var(--success); }
+  .an-box.orange .an-num { color: #e67e22; }
+  .an-box.red .an-num { color: var(--danger); }
+
+  .attendance-bar-wrap {
+    background: white;
+    border-radius: 14px;
+    padding: 14px 16px;
+    box-shadow: 0 2px 8px rgba(26,82,118,0.08);
+    margin-bottom: 10px;
+  }
+  .bar-label-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    font-size: 13px;
+    font-weight: 700;
+  }
+  .bar-label-row .bar-title { color: var(--text); }
+  .bar-label-row .bar-pct { color: var(--primary); }
+  .attendance-bar {
+    height: 10px;
+    background: var(--bg);
+    border-radius: 50px;
+    overflow: hidden;
+  }
+  .attendance-bar-fill {
+    height: 100%;
+    border-radius: 50px;
+    background: linear-gradient(90deg, var(--accent), var(--primary-light));
+    transition: width 0.8s cubic-bezier(0.34,1.2,0.64,1);
+  }
+
+  .peak-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .peak-box {
+    background: white;
+    border-radius: 14px;
+    padding: 12px 14px;
+    box-shadow: 0 2px 8px rgba(26,82,118,0.08);
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+  .peak-box-label { font-size: 11px; color: var(--text-muted); font-weight: 700; }
+  .peak-box-val { font-size: 15px; font-weight: 900; color: var(--primary); }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+  .spinner {
+    width: 22px;
+    height: 22px;
+    border: 3px solid rgba(255,255,255,0.35);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    display: inline-block;
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 600px) {
+    /* HEADER */
+    header { padding: 20px 16px 16px; }
+    header h1 { font-size: 22px; }
+    header p { font-size: 14px; }
+    header .clinic-icon { font-size: 40px; }
+
+    /* CONTAINER */
+    .container { padding: 16px 12px 60px; }
+
+    /* STEP BAR */
+    .steps { border-radius: 40px; padding: 4px; }
+    .step-item { font-size: 13px; padding: 11px 6px; }
+
+    /* CARD */
+    .card { padding: 20px 14px; border-radius: 14px; }
+    .card-title { font-size: 18px; margin-bottom: 18px; }
+
+    /* FORM */
+    label { font-size: 15px; }
+    input[type="text"], input[type="tel"], select {
+      font-size: 16px;
+      padding: 14px 16px;
+    }
+
+    /* VISIT TYPE */
+    .visit-type-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+    .visit-option { padding: 18px 10px; }
+    .visit-option .v-title { font-size: 15px; }
+
+    /* MAIN BUTTON */
+    .btn { font-size: 18px; padding: 16px; }
+
+    /* DATE CARDS */
+    .date-card { flex: 0 0 74px; padding: 12px 4px; border-radius: 14px; }
+    .date-card .d-num { font-size: 22px; }
+
+    /* SLOTS */
+    .slots-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .slot { padding: 12px 6px; font-size: 15px; }
+
+    /* SUCCESS / CONFIRM */
+    .success-card { padding: 30px 16px; }
+    .success-title { font-size: 22px; }
+    .booking-num { font-size: 28px; padding: 14px 24px; }
+    .summary-row { font-size: 14px; }
+
+    /* ADMIN OVERLAY */
+    .admin-overlay { padding: 0; align-items: flex-end; }
+    .admin-panel {
+      border-radius: 22px 22px 0 0;
+      max-height: 92vh;
+      overflow-y: auto;
+      margin: 0;
+    }
+    .admin-header { padding: 16px; }
+    .admin-header h2 { font-size: 17px; }
+    .admin-body { padding: 14px; }
+
+    /* STATS */
+    .admin-stats { grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 14px; }
+    .stat-num { font-size: 22px; }
+    .stat-label { font-size: 10px; }
+
+    /* TABS — scroll horizontally instead of wrapping */
+    .admin-tabs {
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+      gap: 6px;
+      padding-bottom: 4px;
+    }
+    .admin-tabs::-webkit-scrollbar { display: none; }
+    .tab-btn { padding: 9px 14px; font-size: 13px; flex-shrink: 0; }
+
+    /* SEARCH */
+    .admin-search { font-size: 14px; padding: 11px 16px; }
+
+    /* REMINDER BANNER */
+    .remind-banner { padding: 12px; }
+    .remind-banner-title { font-size: 14px; }
+    .remind-row { padding: 8px 10px; }
+    .remind-row-name { font-size: 13px; }
+    .btn-remind-wa { font-size: 12px; padding: 7px 11px; }
+
+    /* BOOKING CARDS */
+    .booking-card { padding: 13px; border-radius: 14px; }
+    .bc-name { font-size: 15px; }
+    .bc-tag { font-size: 11px; padding: 4px 10px; }
+    .act-btn { font-size: 13px; padding: 10px 10px; }
+    .btn-more { width: 42px; min-width: 42px; font-size: 18px; }
+
+    /* ANALYTICS */
+    .analytics-grid { grid-template-columns: 1fr 1fr; }
+    .peak-row { grid-template-columns: 1fr; }
+    .an-num { font-size: 19px; }
+
+    /* PIN MODAL */
+    .pin-box { width: 92vw; padding: 28px 18px; }
+    .key-btn { padding: 14px; font-size: 20px; }
+    .confirm-box { width: 88vw; padding: 24px 18px; }
+  }
+
+  /* QUIZ */
+  .quiz-card {
+    background: linear-gradient(135deg, #f0f6ff, #e8f4fb);
+    border: 2px solid var(--primary-pale);
+    border-radius: var(--radius);
+    padding: 28px 22px;
+    margin-top: 16px;
+    animation: fadeUp 0.4s ease;
+  }
+  .quiz-title {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--primary);
+    margin-bottom: 6px;
+    text-align: center;
+  }
+  .quiz-sub {
+    font-size: 14px;
+    color: var(--text-muted);
+    text-align: center;
+    margin-bottom: 22px;
+  }
+  .quiz-q {
+    margin-bottom: 20px;
+  }
+  .quiz-q-label {
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--text);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .quiz-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .quiz-opt {
+    padding: 9px 16px;
+    border: 2px solid var(--border);
+    border-radius: 50px;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    background: white;
+    color: var(--text);
+    cursor: pointer;
+    transition: all 0.18s;
+    line-height: 1;
+  }
+  .quiz-opt:hover { border-color: var(--primary-light); background: var(--primary-pale); }
+  .quiz-opt.selected { background: var(--primary); border-color: var(--primary); color: white; }
+  .quiz-submit {
+    width: 100%;
+    margin-top: 8px;
+    padding: 15px;
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 17px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 16px rgba(26,82,118,0.3);
+  }
+  .quiz-submit:hover { transform: translateY(-2px); }
+  .quiz-done {
+    text-align: center;
+    padding: 18px;
+    background: #eafaf1;
+    border-radius: 14px;
+    color: var(--success);
+    font-size: 16px;
+    font-weight: 800;
+    margin-top: 16px;
+  }
+
+  /* QUIZ ANSWERS in admin card */
+  .bc-quiz {
+    margin-top: 10px;
+    background: #f0f6ff;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1.5px solid var(--primary-pale);
+  }
+  .bc-quiz-toggle {
+    width: 100%;
+    padding: 10px 14px;
+    background: none;
+    border: none;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--primary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    text-align: right;
+  }
+  .bc-quiz-body {
+    display: none;
+    padding: 0 14px 12px;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .bc-quiz-body.open { display: flex; }
+  .bc-quiz-row {
+    font-size: 13px;
+    color: var(--text);
+    display: flex;
+    gap: 6px;
+    align-items: flex-start;
+  }
+  .bc-quiz-row .qkey { color: var(--text-muted); font-weight: 700; white-space: nowrap; }
+  .bc-quiz-row .qval { font-weight: 800; color: var(--primary); }
+
+  /* FIELD ERROR */
+  .field-error {
+    color: var(--danger);
+    font-size: 13px;
+    font-weight: 700;
+    margin-top: 6px;
+    display: none;
+    padding-right: 4px;
+  }
+  .field-error.show { display: block; }
+  input.invalid, select.invalid {
+    border-color: var(--danger) !important;
+    box-shadow: 0 0 0 3px rgba(231,76,60,0.12) !important;
+  }
+  .visit-type-grid.invalid .visit-option:not(.selected) {
+    border-color: var(--danger);
+  }
+
+
+  /* QUIZ TOGGLE IN FORM */
+  .quiz-toggle-btn {
+    width: 100%;
+    padding: 14px 20px;
+    background: #f0f6ff;
+    border: 2px solid var(--primary-pale);
+    border-radius: 50px;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--primary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: all 0.2s;
+    margin-bottom: 0;
+  }
+  .quiz-toggle-btn:hover { background: var(--primary-pale); border-color: var(--primary-light); }
+  .quiz-toggle-btn.open { border-radius: 18px 18px 0 0; border-bottom-color: transparent; }
+  .quiz-toggle-btn .qtarrow { transition: transform 0.25s; font-size: 12px; }
+  .quiz-toggle-btn.open .qtarrow { transform: rotate(180deg); }
+
+  .quiz-inline {
+    display: none;
+    background: #f0f6ff;
+    border: 2px solid var(--primary-pale);
+    border-top: none;
+    border-radius: 0 0 18px 18px;
+    padding: 18px 16px 20px;
+    margin-bottom: 22px;
+    flex-direction: column;
+    gap: 18px;
+    animation: fadeUp 0.25s ease;
+  }
+  .quiz-inline.open { display: flex; }
+
+  .quiz-notes {
+    width: 100%;
+    padding: 14px 16px;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 15px;
+    border: 2px solid var(--border);
+    border-radius: 14px;
+    background: white;
+    color: var(--text);
+    resize: vertical;
+    min-height: 80px;
+    outline: none;
+    text-align: right;
+    transition: border 0.2s;
+    line-height: 1.5;
+  }
+  .quiz-notes:focus { border-color: var(--primary-light); box-shadow: 0 0 0 3px rgba(46,134,193,0.10); }
+  .quiz-notes-label {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+    display: block;
+  }
+
+</style>
+</head>
+<body>
+
+<header>
+  <div class="secret-btn-wrap">
+    <button class="secret-btn" onclick="openPinModal()" title="لوحة السكرتير">⚙️</button>
+    <span class="remind-badge" id="remindBadge"></span>
+  </div>
+  <h1>عيادة المسالك البولية</h1>
+  <p>احجز موعدك بسهولة • مساءً ٤:٠٠ - ٩:٠٠</p>
+</header>
+
+<div class="container">
+
+  <!-- STEP INDICATOR -->
+  <div class="steps" id="stepsBar">
+    <div class="step-item active" id="s1">١ البيانات</div>
+    <div class="step-item" id="s2">٢ الموعد</div>
+    <div class="step-item" id="s3">٣ التأكيد</div>
+  </div>
+
+  <!-- STEP 1: PATIENT INFO -->
+  <div id="step1">
+    <div class="card">
+      <div class="card-title"><span>👤</span> بيانات المريض</div>
+
+      <div class="working-hours">
+        🕓 أوقات الدوام: ٤:٠٠ مساءً — ٩:٠٠ مساءً
+      </div>
+
+      <div class="form-group">
+        <label>الاسم الكامل <span class="req">*</span></label>
+        <input type="text" id="patientName" placeholder="اكتب الاسم هنا..." autocomplete="off" oninput="clearErr('nameErr',this)">
+        <div class="field-error" id="nameErr">يرجى إدخال الاسم الكامل</div>
+      </div>
+
+      <div class="form-group">
+        <label>رقم الجوال <span class="req">*</span></label>
+        <input type="tel" id="patientPhone" placeholder="07XXXXXXXXX" maxlength="11" dir="ltr" oninput="clearErr('phoneErr',this)">
+        <div class="field-error" id="phoneErr">يجب أن يكون الرقم ١١ خانة ويبدأ بـ 07</div>
+      </div>
+
+      <div class="form-group">
+        <label>نوع الزيارة <span class="req">*</span></label>
+        <div class="visit-type-grid" id="visitGrid">
+          <div class="visit-option" onclick="selectVisit('first')" id="vFirst">
+            <div class="check">✓</div>
+            <div class="v-title">فحص أول مرة</div>
+            <div class="v-desc">زيارة جديدة للعيادة</div>
+          </div>
+          <div class="visit-option" onclick="selectVisit('review')" id="vReview">
+            <div class="check">✓</div>
+            <div class="v-title">مراجعة</div>
+            <div class="v-desc">متابعة لزيارة سابقة</div>
+          </div>
+        </div>
+        <div class="field-error" id="visitErr">يرجى اختيار نوع الزيارة</div>
+      </div>
+
+
+      <!-- QUIZ INLINE (optional) -->
+      <div class="form-group" style="margin-bottom:10px">
+        <button type="button" class="quiz-toggle-btn" id="quizToggleBtn" onclick="toggleQuizInline()">
+          <span>🩺 ساعد الدكتور — أسئلة سريعة <span style="font-size:13px;font-weight:600;opacity:0.7">(اختياري)</span></span>
+          <span class="qtarrow">▼</span>
+        </button>
+        <div class="quiz-inline" id="quizInline">
+
+          <div class="quiz-q">
+            <div class="quiz-q-label">١. ما هي شكواك الرئيسية؟</div>
+            <div class="quiz-options">
+              <button class="quiz-opt" onclick="quizSelect(this,1)">ألم</button>
+              <button class="quiz-opt" onclick="quizSelect(this,1)">حرقة عند التبول</button>
+              <button class="quiz-opt" onclick="quizSelect(this,1)">تكرار التبول</button>
+              <button class="quiz-opt" onclick="quizSelect(this,1)">دم في البول</button>
+              <button class="quiz-opt" onclick="quizSelect(this,1)">أخرى</button>
+            </div>
+          </div>
+
+          <div class="quiz-q">
+            <div class="quiz-q-label">٢. كم مدة المشكلة؟</div>
+            <div class="quiz-options">
+              <button class="quiz-opt" onclick="quizSelect(this,2)">أقل من أسبوع</button>
+              <button class="quiz-opt" onclick="quizSelect(this,2)">أسبوع — شهر</button>
+              <button class="quiz-opt" onclick="quizSelect(this,2)">أكثر من شهر</button>
+            </div>
+          </div>
+
+          <div class="quiz-q">
+            <div class="quiz-q-label">٣. هل تتناول أدوية حالياً؟</div>
+            <div class="quiz-options">
+              <button class="quiz-opt" onclick="quizSelect(this,3)">نعم</button>
+              <button class="quiz-opt" onclick="quizSelect(this,3)">لا</button>
+            </div>
+          </div>
+
+          <div>
+            <span class="quiz-notes-label">📝 تفاصيل إضافية للدكتور (اختياري)</span>
+            <textarea class="quiz-notes" id="quizNotes" placeholder="أي معلومات إضافية تريد إيصالها للدكتور..."></textarea>
+          </div>
+
+        </div>
+      </div>
+
+      <button class="btn btn-primary" onclick="goToStep2()">
+        التالي: اختر الموعد ←
+      </button>
+    </div>
+  </div>
+
+  <!-- STEP 2: PICK DATE & TIME -->
+  <div id="step2" style="display:none">
+    <div class="card">
+      <div class="card-title"><span>📅</span> اختر اليوم</div>
+
+      <div class="info-box">
+        <span>💡</span>
+        اضغط على اليوم الذي تريده ثم اختر الوقت المناسب
+      </div>
+
+      <div class="dates-scroll" id="datesContainer"></div>
+    </div>
+
+    <div class="card" id="slotsCard" style="display:none">
+      <div class="card-title"><span>🕐</span> اختر الوقت</div>
+      <div class="slots-grid" id="slotsContainer"></div>
+    </div>
+
+    <div id="step2Btns" style="display:none">
+      <button class="btn btn-primary" onclick="goToStep3()">
+        التالي: مراجعة الحجز ←
+      </button>
+      <button class="btn btn-secondary" onclick="goToStep1()">
+        → رجوع
+      </button>
+    </div>
+  </div>
+
+  <!-- STEP 3: REVIEW & CONFIRM -->
+  <div id="step3" style="display:none">
+    <div class="card">
+      <div class="card-title"><span>📋</span> مراجعة بيانات الحجز</div>
+      <div class="info-box">
+        <span>👁️</span>
+        تحقق من بياناتك قبل تأكيد الحجز
+      </div>
+      <div class="booking-summary" id="bookingPreviewSummary" style="margin-bottom:20px;"></div>
+      <button id="confirmBookingBtn" class="btn btn-primary" onclick="confirmBooking()">
+        <span id="confirmBtnContent">✅ إنهاء الحجز</span>
+      </button>
+      <button class="btn btn-secondary" onclick="backToStep2()">
+        → تعديل الموعد
+      </button>
+    </div>
+  </div>
+
+  <!-- STEP 4: SUCCESS -->
+  <div id="step4" style="display:none">
+    <div class="card success-card">
+      <!-- X close button -->
+      <button onclick="newBooking()" title="إغلاق" style="position:absolute;top:16px;left:16px;background:#fdecea;border:1.5px solid #f5b7b1;width:42px;height:42px;border-radius:50%;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#e74c3c;transition:all 0.2s;" onmouseover="this.style.background='#e74c3c';this.style.color='white'" onmouseout="this.style.background='#fdecea';this.style.color='#e74c3c'">✕</button>
+
+      <span class="success-icon">✅</span>
+      <div class="success-title">تم تأكيد حجزك! 🎉</div>
+      <div class="success-sub">رقم حجزك</div>
+
+      <div class="booking-num" id="bookingNumDisplay"></div>
+
+      <div style="background:#fff8e1;border:2px dashed #f39c12;border-radius:12px;padding:12px 16px;margin-bottom:20px;font-size:16px;color:#b7770d;font-weight:700;display:flex;align-items:center;gap:8px;">
+        📸 التقط صورة لهذا الرقم للمراجعة عند الحضور
+      </div>
+
+      <div class="booking-summary" id="bookingSummaryInline" style="margin-bottom:16px;"></div>
+      <div class="info-box">
+        <span>⏰</span>
+        يرجى الحضور قبل ١٥ دقيقة من موعدك
+      </div>
+
+      <button class="btn btn-primary" onclick="newBooking()">
+        ➕ حجز موعد آخر
+      </button>
+    </div>
+  </div>
+
+
+</div><!-- /container -->
+
+<!-- PIN MODAL -->
+<div class="pin-modal" id="pinModal">
+  <div class="pin-box">
+    <h3>🔐 لوحة السكرتير</h3>
+    <p>أدخل الرمز السري للدخول</p>
+    <div class="pin-dots" id="pinDots">
+      <div class="pin-dot" id="d0"></div>
+      <div class="pin-dot" id="d1"></div>
+      <div class="pin-dot" id="d2"></div>
+      <div class="pin-dot" id="d3"></div>
+    </div>
+    <div class="pin-keypad">
+      <button class="key-btn" onclick="pinKey('1')">١</button>
+      <button class="key-btn" onclick="pinKey('2')">٢</button>
+      <button class="key-btn" onclick="pinKey('3')">٣</button>
+      <button class="key-btn" onclick="pinKey('4')">٤</button>
+      <button class="key-btn" onclick="pinKey('5')">٥</button>
+      <button class="key-btn" onclick="pinKey('6')">٦</button>
+      <button class="key-btn" onclick="pinKey('7')">٧</button>
+      <button class="key-btn" onclick="pinKey('8')">٨</button>
+      <button class="key-btn" onclick="pinKey('9')">٩</button>
+      <button class="key-btn" onclick="pinKey('0')" style="grid-column:2">٠</button>
+      <button class="key-btn del" onclick="pinDel()">⌫</button>
+    </div>
+    <div class="pin-error" id="pinError"></div>
+    <button class="btn btn-secondary" onclick="closePinModal()" style="margin-top:10px;padding:12px">إلغاء</button>
+  </div>
+</div>
+
+<!-- ADMIN PANEL -->
+<div class="admin-overlay" id="adminOverlay">
+  <div class="admin-panel">
+    <div class="admin-header">
+      <div class="admin-header-left">
+        <div>
+          <h2>🗂️ لوحة السكرتير</h2>
+          <div class="sub-date" id="adminDate"></div>
+        </div>
+      </div>
+      <button class="close-btn" onclick="closeAdmin()">✕</button>
+    </div>
+    <div class="admin-body">
+
+      <!-- REMINDER BANNER -->
+      <div class="remind-banner" id="remindBanner">
+        <div class="remind-banner-title">⚠️ مرضى موعدهم غداً ولم يُرسل لهم تذكير</div>
+        <div class="remind-banner-list" id="remindBannerList"></div>
+      </div>
+
+      <!-- ANALYTICS TOGGLE -->
+      <button class="analytics-toggle" id="analyticsToggle" onclick="toggleAnalytics()">
+        <span>📊 تقرير أداء العيادة</span>
+        <span class="toggle-arrow">▼</span>
+      </button>
+      <div class="analytics-panel" id="analyticsPanel"></div>
+
+      <!-- STATS -->
+      <div class="admin-stats" id="adminStats"></div>
+
+      <!-- SEARCH -->
+      <div class="admin-search-row">
+        <input class="admin-search" type="text" id="adminSearch" placeholder="🔍  بحث بالاسم أو رقم الجوال..." oninput="renderAdmin()">
+      </div>
+
+      <!-- TABS -->
+      <div class="admin-tabs">
+        <button class="tab-btn active" onclick="switchTab('all',this)">📋 الكل</button>
+        <button class="tab-btn" onclick="switchTab('tomorrow',this)">📆 الغد</button>
+        <button class="tab-btn" onclick="switchTab('attended',this)">✅ حضر</button>
+        <button class="tab-btn" onclick="switchTab('first',this)">أول مرة</button>
+        <button class="tab-btn" onclick="switchTab('review',this)">مراجعة</button>
+      </div>
+
+      <!-- LIST -->
+      <input type="hidden" id="adminDateFilter" value="">
+      <div class="bookings-list" id="adminList"></div>
+    </div>
+  </div>
+</div>
+
+<!-- CONFIRM DELETE -->
+<div class="confirm-modal" id="confirmModal">
+  <div class="confirm-box">
+    <span class="ci">🗑️</span>
+    <h4>حذف الحجز؟</h4>
+    <p id="confirmText">هل تريد حذف هذا الحجز نهائياً؟</p>
+    <div class="confirm-btns">
+      <button class="confirm-yes" onclick="confirmDelete()">حذف</button>
+      <button class="confirm-no" onclick="closeConfirm()">إلغاء</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ===================== DATA =====================
+const SLOTS_PER_DAY = 5;
+const PIN = '0000';
+const TIME_SLOTS = ['4:00 م','4:45 م','5:30 م','6:15 م','7:00 م','7:45 م','8:30 م'];
+// We'll pick 5 per day based on availability
+
+let bookings = [];
+let selectedDate = null;
+let selectedSlot = null;
+let visitType = null;
+let pinInput = '';
+let _bookingCounter = 0;
+
+// ===================== HELPERS =====================
+function saveBookings() {
+  try { localStorage.setItem('clinic_bookings', JSON.stringify(bookings)); } catch(e) {}
+}
+function loadBookings() {
+  try { bookings = JSON.parse(localStorage.getItem('clinic_bookings') || '[]'); } catch(e) { bookings = []; }
+}
+
+function toArabicNum(n) {
+  return String(n).replace(/\d/g, d => '٠١٢٣٤٥٦٧٨٩'[d]);
+}
+
+function formatDate(dateStr) {
+  const d = new Date(dateStr);
+  const days = ['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+  const months = ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+  return `${days[d.getDay()]} ${d.getDate()} ${months[d.getMonth()]}`;
+}
+
+function shortDay(dateStr) {
+  const d = new Date(dateStr);
+  const days = ['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+  return days[d.getDay()];
+}
+
+function getBookingsForDate(dateStr) {
+  return bookings.filter(b => b.date === dateStr);
+}
+
+function getAvailableSlots(dateStr) {
+  const booked = getBookingsForDate(dateStr).map(b => b.slot);
+  return TIME_SLOTS.map(t => ({ time: t, taken: booked.includes(t) }));
+}
+
+function localDateStr(d) {
+  // Returns YYYY-MM-DD in LOCAL time (not UTC)
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${y}-${m}-${day}`;
+}
+
+function getTodayStr() {
+  // Always recomputed fresh so midnight rollovers are handled correctly
+  return localDateStr(new Date());
+}
+
+function isPastOrToday(dateStr) {
+  return dateStr <= getTodayStr();
+}
+
+function generateDateRange() {
+  const dates = [];
+  const todayStr = getTodayStr();
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  for (let i = 1; i <= 31; i++) {
+    const d = new Date(today);
+    d.setDate(today.getDate() + i);
+    const ds = localDateStr(d);
+    if (d.getDay() === 5) continue;  // Skip Fridays
+    if (ds <= todayStr) continue;    // Never include today or past dates
+    dates.push(ds);
+  }
+  return dates;
+}
+
+function generateBookingNumber() {
+  _bookingCounter++;
+  const seq = bookings.filter(b => b.date === selectedDate).length + 1;
+  const d = new Date();
+  const label = toArabicNum(d.getDate()) + '/' + toArabicNum(d.getMonth() + 1);
+  return label + ' \u00B7 ' + toArabicNum(seq);
+}
+
+function generateId() {
+  return 'b' + Date.now() + Math.floor(Math.random() * 1000);
+}
+
+// ===================== STEP 1 =====================
+function selectVisit(type) {
+  visitType = type;
+  document.getElementById('vFirst').classList.toggle('selected', type === 'first');
+  document.getElementById('vReview').classList.toggle('selected', type === 'review');
+}
+
+function goToStep1() {
+  document.getElementById('step1').style.display = '';
+  document.getElementById('step2').style.display = 'none';
+  updateStepBar(1);
+  selectedDate = null; selectedSlot = null;
+}
+
+function clearErr(id, input) {
+  document.getElementById(id).classList.remove('show');
+  input.classList.remove('invalid');
+}
+
+function goToStep2() {
+  const name = document.getElementById('patientName').value.trim();
+  const phone = document.getElementById('patientPhone').value.trim();
+  const nameInput = document.getElementById('patientName');
+  const phoneInput = document.getElementById('patientPhone');
+  let valid = true;
+
+  if (!name) {
+    document.getElementById('nameErr').classList.add('show');
+    nameInput.classList.add('invalid');
+    valid = false;
+  }
+  if (!phone || phone.length !== 11 || !phone.startsWith('07')) {
+    document.getElementById('phoneErr').classList.add('show');
+    phoneInput.classList.add('invalid');
+    valid = false;
+  }
+  if (!visitType) {
+    document.getElementById('visitErr').classList.add('show');
+    valid = false;
+  }
+  if (!valid) { return; }
+
+  document.getElementById('step1').style.display = 'none';
+  document.getElementById('step2').style.display = '';
+  updateStepBar(2);
+  renderDates();
+}
+
+// ===================== STEP 2 =====================
+function renderDates() {
+  const container = document.getElementById('datesContainer');
+  const dates = generateDateRange();
+  const todayStr = localDateStr(new Date());
+
+  container.innerHTML = '';
+  dates.forEach(dateStr => {
+    const d = new Date(dateStr);
+    const dayBookings = getBookingsForDate(dateStr);
+    const availCount = SLOTS_PER_DAY - dayBookings.length;
+    const isFull = availCount <= 0;
+    const isToday = dateStr === todayStr;
+
+    const div = document.createElement('div');
+    div.className = 'date-card' + (isFull ? ' full' : '') + (isToday ? ' today-card' : '');
+    if (dateStr === selectedDate) div.classList.add('selected');
+
+    div.innerHTML = `
+      <div class="d-name">${shortDay(dateStr)}</div>
+      <div class="d-num">${toArabicNum(d.getDate())}</div>
+      <div class="d-avail">${isFull ? 'ممتلئ' : toArabicNum(availCount) + ' متاح'}</div>
+    `;
+    if (!isFull) div.onclick = () => selectDate(dateStr);
+    container.appendChild(div);
+  });
+
+  if (selectedDate) renderSlots();
+}
+
+function selectDate(dateStr) {
+  // Re-check at click time in case the page was open across midnight
+  if (isPastOrToday(dateStr)) {
+    renderDates(); // refresh the calendar to drop the now-invalid date
+    return;
+  }
+  selectedDate = dateStr;
+  selectedSlot = null;
+  document.getElementById('step2Btns').style.display = 'none';
+  renderDates();
+  renderSlots();
+}
+
+function renderSlots() {
+  const card = document.getElementById('slotsCard');
+  const container = document.getElementById('slotsContainer');
+  card.style.display = '';
+  container.innerHTML = '';
+
+  const slots = getAvailableSlots(selectedDate);
+  // Show only first 5 slots
+  const displaySlots = slots.slice(0, SLOTS_PER_DAY);
+
+  displaySlots.forEach(s => {
+    const div = document.createElement('div');
+    div.className = 'slot' + (s.taken ? ' taken' : '') + (s.time === selectedSlot ? ' selected' : '');
+    div.innerHTML = `<span class="slot-time">${s.time}</span><span class="slot-status">${s.taken ? 'محجوز' : 'متاح'}</span>`;
+    if (!s.taken) div.onclick = () => selectSlot(s.time, div);
+    container.appendChild(div);
+  });
+}
+
+function selectSlot(time, el) {
+  selectedSlot = time;
+  document.querySelectorAll('.slot').forEach(s => s.classList.remove('selected'));
+  el.classList.add('selected');
+  document.getElementById('step2Btns').style.display = '';
+}
+
+// ===================== STEP 3 (PREVIEW) =====================
+function goToStep3() {
+  if (!selectedDate || !selectedSlot) return;
+  if (isPastOrToday(selectedDate)) {
+    selectedDate = null; selectedSlot = null;
+    renderDates();
+    return;
+  }
+
+  const name = document.getElementById('patientName').value.trim();
+  const phone = document.getElementById('patientPhone').value.trim();
+  const vLabel = visitType === 'first' ? 'فحص أول مرة' : 'مراجعة';
+
+  const summaryHTML = `
+    <div class="summary-row"><span class="summary-label">الاسم</span><span class="summary-value">${name}</span></div>
+    <div class="summary-row"><span class="summary-label">الجوال</span><span class="summary-value">${phone}</span></div>
+    <div class="summary-row"><span class="summary-label">نوع الزيارة</span><span class="summary-value">${vLabel}</span></div>
+    <div class="summary-row"><span class="summary-label">التاريخ</span><span class="summary-value">${formatDate(selectedDate)}</span></div>
+    <div class="summary-row"><span class="summary-label">الوقت</span><span class="summary-value">${selectedSlot}</span></div>
+  `;
+  document.getElementById('bookingPreviewSummary').innerHTML = summaryHTML;
+
+  document.getElementById('step2').style.display = 'none';
+  document.getElementById('step3').style.display = '';
+  updateStepBar(3);
+  window.scrollTo(0, 0);
+}
+
+function backToStep2() {
+  document.getElementById('step3').style.display = 'none';
+  document.getElementById('step2').style.display = '';
+  updateStepBar(2);
+}
+
+function confirmBooking() {
+  const btn = document.getElementById('confirmBookingBtn');
+  const content = document.getElementById('confirmBtnContent');
+
+  // Prevent double-click
+  if (btn.disabled) return;
+  btn.disabled = true;
+  content.innerHTML = '<span class="spinner"></span> جارٍ الحفظ...';
+
+  // Hard guard: re-verify the selected date is still in the future at save time
+  if (!selectedDate || !selectedSlot || isPastOrToday(selectedDate)) {
+    btn.disabled = false;
+    content.innerHTML = '✅ إنهاء الحجز';
+    backToStep2();
+    return;
+  }
+
+  // Simulate a brief async save (replace with real API call if needed)
+  setTimeout(() => {
+    const name = document.getElementById('patientName').value.trim();
+    const phone = document.getElementById('patientPhone').value.trim();
+    const num = generateBookingNumber();
+
+    const booking = {
+      id: generateId(),
+      displayNum: num,
+      name,
+      phone,
+      visitType,
+      date: selectedDate,
+      slot: selectedSlot,
+      createdAt: new Date().toISOString(),
+      quiz: collectQuiz()
+    };
+    bookings.push(booking);
+    saveBookings();
+
+    document.getElementById('step3').style.display = 'none';
+    document.getElementById('step4').style.display = '';
+    updateStepBar(4);
+
+    document.getElementById('bookingNumDisplay').textContent = booking.displayNum;
+
+    const vLabel = visitType === 'first' ? 'فحص أول مرة' : 'مراجعة';
+    const summaryHTML = `
+      <div class="summary-row"><span class="summary-label">الاسم</span><span class="summary-value">${name}</span></div>
+      <div class="summary-row"><span class="summary-label">الجوال</span><span class="summary-value">${phone}</span></div>
+      <div class="summary-row"><span class="summary-label">نوع الزيارة</span><span class="summary-value">${vLabel}</span></div>
+      <div class="summary-row"><span class="summary-label">التاريخ</span><span class="summary-value">${formatDate(selectedDate)}</span></div>
+      <div class="summary-row"><span class="summary-label">الوقت</span><span class="summary-value">${selectedSlot}</span></div>
+    `;
+    document.getElementById('bookingSummaryInline').innerHTML = summaryHTML;
+    window._lastBookingId = booking.id;
+    window.scrollTo(0, 0);
+
+    // Reset button state for next use
+    btn.disabled = false;
+    content.innerHTML = '✅ إنهاء الحجز';
+  }, 800);
+}
+
+function newBooking() {
+  document.getElementById('patientName').value = '';
+  document.getElementById('patientPhone').value = '';
+  visitType = null;
+  selectedDate = null;
+  selectedSlot = null;
+  resetQuiz();
+  document.getElementById('vFirst').classList.remove('selected');
+  document.getElementById('vReview').classList.remove('selected');
+  document.getElementById('step3').style.display = 'none';
+  document.getElementById('step4').style.display = 'none';
+  document.getElementById('step1').style.display = '';
+  updateStepBar(1);
+  window.scrollTo(0,0);
+}
+
+// ===================== STEP BAR =====================
+function updateStepBar(active) {
+  for (let i = 1; i <= 3; i++) {
+    const el = document.getElementById('s' + i);
+    if (!el) continue;
+    const stepNum = i === 3 ? 4 : i; // step3 html element = visual step 3 (preview), step4 = success
+    el.className = 'step-item' + (active === 4 && i === 3 ? ' done' : i === active ? ' active' : i < active ? ' done' : '');
+  }
+}
+
+// ===================== PIN MODAL =====================
+function openPinModal() {
+  pinInput = '';
+  updatePinDots();
+  document.getElementById('pinError').textContent = '';
+  document.getElementById('pinModal').classList.add('open');
+}
+function closePinModal() {
+  document.getElementById('pinModal').classList.remove('open');
+  pinInput = '';
+  updatePinDots();
+}
+function pinKey(n) {
+  if (pinInput.length >= 4) return;
+  pinInput += n;
+  updatePinDots();
+  if (pinInput.length === 4) checkPin();
+}
+function pinDel() {
+  pinInput = pinInput.slice(0, -1);
+  updatePinDots();
+  document.getElementById('pinError').textContent = '';
+}
+function updatePinDots() {
+  for (let i = 0; i < 4; i++) {
+    document.getElementById('d' + i).className = 'pin-dot' + (i < pinInput.length ? ' filled' : '');
+  }
+}
+function checkPin() {
+  if (pinInput === PIN) {
+    closePinModal();
+    openAdmin();
+  } else {
+    document.getElementById('pinError').textContent = 'رمز خاطئ، حاول مجدداً';
+    pinInput = '';
+    updatePinDots();
+    setTimeout(() => document.getElementById('pinError').textContent = '', 2000);
+  }
+}
+
+// ===================== ADMIN =====================
+let adminTab = 'all';
+let pendingDeleteId = null;
+
+function openAdmin() {
+  document.getElementById('adminOverlay').classList.add('open');
+  updateRemindBanner();
+  updateRemindBadge();
+  // Set today's date display
+  const now = new Date();
+  const days = ['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+  const months = ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+  document.getElementById('adminDate').textContent = `${days[now.getDay()]} ${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()}`;
+  renderAdmin();
+}
+
+function closeAdmin() {
+  document.getElementById('adminOverlay').classList.remove('open');
+}
+
+function switchTab(tab, btn) {
+  adminTab = tab;
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderAdmin();
+}
+
+function clearDateFilter() {
+  document.getElementById('adminDateFilter').value = '';
+  renderAdmin();
+}
+
+function updateStatus(id, status) {
+  const idx = bookings.findIndex(b => b.id === id);
+  if (idx === -1) return;
+  bookings[idx].status = status;
+  saveBookings();
+  renderAdmin();
+  // Also refresh slots in main page if open
+  if (selectedDate) renderSlots();
+}
+
+function askDelete(id, name) {
+  pendingDeleteId = id;
+  document.getElementById('confirmText').textContent = `سيتم حذف حجز "${name}" نهائياً`;
+  document.getElementById('confirmModal').classList.add('open');
+}
+function closeConfirm() {
+  pendingDeleteId = null;
+  document.getElementById('confirmModal').classList.remove('open');
+}
+function confirmDelete() {
+  if (!pendingDeleteId) return;
+  bookings = bookings.filter(b => b.id !== pendingDeleteId);
+  saveBookings();
+  closeConfirm();
+  renderAdmin();
+  if (selectedDate) { renderDates(); renderSlots(); }
+}
+
+function renderAdmin() {
+  const todayStr = localDateStr(new Date());
+  const tmrw = new Date(); tmrw.setDate(tmrw.getDate() + 1);
+  const tomorrowStr = localDateStr(tmrw);
+  const searchVal = (document.getElementById('adminSearch')?.value || '').trim().toLowerCase();
+  const dateFilter = document.getElementById('adminDateFilter')?.value || '';
+
+  // Stats
+  const total = bookings.length;
+  const tomorrowCount = bookings.filter(b => b.date === tomorrowStr).length;
+  const attendedCount = bookings.filter(b => b.status === 'attended').length;
+  const cancelledCount = bookings.filter(b => b.status === 'cancelled').length;
+  document.getElementById('adminStats').innerHTML = `
+    <div class="stat-box highlight">
+      <div class="stat-num">${toArabicNum(total)}</div>
+      <div class="stat-label">إجمالي الحجوزات</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num" style="color:var(--accent-dark)">${toArabicNum(tomorrowCount)}</div>
+      <div class="stat-label">مواعيد الغد</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num" style="color:var(--success)">${toArabicNum(attendedCount)}</div>
+      <div class="stat-label">حضروا</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num" style="color:var(--danger)">${toArabicNum(cancelledCount)}</div>
+      <div class="stat-label">ملغية</div>
+    </div>
+  `;
+
+  // Filter
+  let filtered = [...bookings].sort((a, b) => {
+    if (a.date !== b.date) return a.date.localeCompare(b.date);
+    return TIME_SLOTS.indexOf(a.slot) - TIME_SLOTS.indexOf(b.slot);
+  });
+
+  if (adminTab === 'upcoming') filtered = filtered.filter(b => !b.status || b.status === 'upcoming');
+  else if (adminTab === 'tomorrow') filtered = filtered.filter(b => b.date === tomorrowStr);
+  else if (adminTab === 'attended') filtered = filtered.filter(b => b.status === 'attended');
+  else if (adminTab === 'cancelled') filtered = filtered.filter(b => b.status === 'cancelled');
+  else if (adminTab === 'first') filtered = filtered.filter(b => b.visitType === 'first');
+  else if (adminTab === 'review') filtered = filtered.filter(b => b.visitType === 'review');
+
+  if (dateFilter) filtered = filtered.filter(b => b.date === dateFilter);
+
+  if (searchVal) {
+    filtered = filtered.filter(b =>
+      b.name.toLowerCase().includes(searchVal) ||
+      b.phone.includes(searchVal)
+    );
+  }
+
+  const list = document.getElementById('adminList');
+  if (filtered.length === 0) {
+    list.innerHTML = `<div class="no-bookings"><span class="nb-icon">📭</span>لا توجد حجوزات في هذه الفئة</div>`;
+    return;
+  }
+
+  list.innerHTML = filtered.map(b => {
+    const status = b.status || 'upcoming';
+    const statusLabel = status === 'attended' ? '\u2705 حضر' : status === 'cancelled' ? '\u274C ملغي' : '\u23F3 قادم';
+    const statusClass = 'tag-status-' + status;
+    const cardClass = 'status-' + status;
+    const visitLabel = b.visitType === 'first' ? 'أول مرة' : 'مراجعة';
+    const visitClass = b.visitType === 'first' ? 'tag-first' : 'tag-review';
+
+    const attendBtn = status !== 'attended'
+      ? `<button class="act-btn btn-attend" data-action="attend" data-id="${b.id}">✅ سجّل حضور</button>`
+      : `<div style="padding:12px;text-align:center;font-size:13px;font-weight:700;color:var(--success);background:#eafaf1;border-radius:50px;">✅ حضر</div>`;
+
+    const cancelBtn = status !== 'cancelled'
+      ? `<button class="act-btn btn-cancel-status" data-action="cancel" data-id="${b.id}">⛔ إلغاء</button>` : '';
+    const restoreBtn = status !== 'upcoming'
+      ? `<button class="act-btn btn-restore" data-action="restore" data-id="${b.id}">↩️ استعادة</button>` : '';
+    const deleteBtn = `<button class="act-btn btn-delete" data-action="delete" data-id="${b.id}" data-name="${b.name.replace(/"/g,'&quot;')}">🗑️ حذف</button>`;
+
+    const waMsg = encodeURIComponent(`السلام عليكم ${b.name}،\nنذكّركم بموعدكم في عيادة المسالك البولية\n📅 ${formatDate(b.date)}\n🕐 ${b.slot}\nيرجى الحضور قبل ١٥ دقيقة. شكراً 🙏`);
+    const waPhone = b.phone.replace(/^0/, '964');
+    const waBtn = `<button class="act-btn btn-whatsapp" onclick="markReminded('${b.id}');window.open('https://wa.me/${waPhone}?text=${waMsg}','_blank')">💬 واتساب</button>`;
+
+    const secActions = [cancelBtn, restoreBtn, deleteBtn].filter(Boolean).join('');
+    const qz = b.quiz;
+    const quizBlock = (qz && (qz[1] || qz[2] || qz[3])) ? `
+      <div class="bc-quiz">
+        <button class="bc-quiz-toggle" onclick="this.nextElementSibling.classList.toggle('open');this.querySelector('.qarrow').textContent=this.nextElementSibling.classList.contains('open')?'▲':'▼'">
+          🩺 إجابات المريض <span class="qarrow">▼</span>
+        </button>
+        <div class="bc-quiz-body">
+          ${qz[1] ? `<div class="bc-quiz-row"><span class="qkey">الشكوى:</span><span class="qval">${qz[1]}</span></div>` : ''}
+          ${qz[2] ? `<div class="bc-quiz-row"><span class="qkey">المدة:</span><span class="qval">${qz[2]}</span></div>` : ''}
+          ${qz[3] ? `<div class="bc-quiz-row"><span class="qkey">أدوية:</span><span class="qval">${qz[3]}</span></div>` : ''}
+          ${qz.notes ? `<div class="bc-quiz-row"><span class="qkey">ملاحظات:</span><span class="qval">${qz.notes}</span></div>` : ''}
+        </div>
+      </div>` : '';
+
+    return `<div class="booking-card ${cardClass}">
+      <div class="bc-top">
+        <div>
+          <div class="bc-name">${b.name}</div>
+          <div class="bc-phone">${b.phone}</div>
+        </div>
+        <span class="bc-tag ${statusClass}">${statusLabel}</span>
+      </div>
+      <div class="bc-meta">
+        <span class="bc-tag tag-date">📅 ${formatDate(b.date)}</span>
+        <span class="bc-tag tag-time">🕐 ${b.slot}</span>
+        <span class="bc-tag ${visitClass}">${visitLabel}</span>
+      </div>
+      <div class="bc-actions">
+        <div class="bc-primary-actions">
+          ${attendBtn}
+          <button class="btn-more" onclick="toggleMore(this)" title="المزيد">···</button>
+        </div>
+        <div class="bc-secondary-actions">
+          ${waBtn}
+          ${secActions}
+        </div>
+      </div>
+      ${quizBlock}
+    </div>`;
+  }).join('');
+}
+
+function toggleMore(btn) {
+  const secPanel = btn.closest('.bc-actions').querySelector('.bc-secondary-actions');
+  const isOpen = secPanel.classList.contains('open');
+  // Close all other open ones first
+  document.querySelectorAll('.bc-secondary-actions.open').forEach(el => el.classList.remove('open'));
+  document.querySelectorAll('.btn-more').forEach(el => el.style.background = '');
+  if (!isOpen) {
+    secPanel.classList.add('open');
+    btn.style.background = 'var(--primary-pale)';
+    btn.style.color = 'var(--primary)';
+  }
+}
+
+// ===================== REMINDER SYSTEM =====================
+function getTomorrowStr() {
+  const tmrw = new Date();
+  tmrw.setDate(tmrw.getDate() + 1);
+  return localDateStr(tmrw);
+}
+
+function getUnremindedTomorrow() {
+  const tmrw = getTomorrowStr();
+  return bookings.filter(b =>
+    b.date === tmrw &&
+    (!b.status || b.status === 'upcoming') &&
+    !b.reminded
+  );
+}
+
+function markReminded(id) {
+  const idx = bookings.findIndex(b => b.id === id);
+  if (idx === -1) return;
+  bookings[idx].reminded = true;
+  saveBookings();
+  updateRemindBadge();
+  updateRemindBanner();
+}
+
+function updateRemindBadge() {
+  const count = getUnremindedTomorrow().length;
+  const badge = document.getElementById('remindBadge');
+  if (!badge) return;
+  if (count > 0) {
+    badge.textContent = count;
+    badge.classList.add('visible');
+  } else {
+    badge.classList.remove('visible');
+  }
+}
+
+function updateRemindBanner() {
+  const unreminded = getUnremindedTomorrow();
+  const banner = document.getElementById('remindBanner');
+  const list = document.getElementById('remindBannerList');
+  if (!banner || !list) return;
+
+  if (unreminded.length === 0) {
+    banner.classList.remove('visible');
+    return;
+  }
+
+  banner.classList.add('visible');
+  list.innerHTML = unreminded.map(b => {
+    const waMsg = encodeURIComponent(`السلام عليكم ${b.name}،\nنذكّركم بموعدكم في عيادة المسالك البولية\n📅 ${formatDate(b.date)}\n🕐 ${b.slot}\nيرجى الحضور قبل ١٥ دقيقة. شكراً 🙏`);
+    const waPhone = b.phone.replace(/^0/, '964');
+    return `<div class="remind-row">
+      <div class="remind-row-info">
+        <div class="remind-row-name">${b.name}</div>
+        <div class="remind-row-time">🕐 ${b.slot}</div>
+      </div>
+      <button class="btn-remind-wa" onclick="markReminded('${b.id}');window.open('https://wa.me/${waPhone}?text=${waMsg}','_blank')">
+        💬 إرسال تذكير
+      </button>
+    </div>`;
+  }).join('');
+}
+
+// ===================== ANALYTICS =====================
+let analyticsOpen = false;
+
+function toggleAnalytics() {
+  analyticsOpen = !analyticsOpen;
+  const panel = document.getElementById('analyticsPanel');
+  const btn = document.getElementById('analyticsToggle');
+  if (analyticsOpen) {
+    panel.classList.add('open');
+    btn.classList.add('open');
+    renderAnalytics();
+  } else {
+    panel.classList.remove('open');
+    btn.classList.remove('open');
+  }
+}
+
+function renderAnalytics() {
+  const panel = document.getElementById('analyticsPanel');
+  if (!analyticsOpen) return;
+
+  const total = bookings.length;
+  const attended = bookings.filter(b => b.status === 'attended').length;
+  const cancelled = bookings.filter(b => b.status === 'cancelled').length;
+  const upcoming = total - attended - cancelled;
+  const attendRate = total > 0 ? Math.round((attended / total) * 100) : 0;
+  const cancelRate = total > 0 ? Math.round((cancelled / total) * 100) : 0;
+
+  // Peak day
+  const dayCounts = {};
+  const dayNames = ['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+  bookings.forEach(b => {
+    const d = new Date(b.date);
+    const name = dayNames[d.getDay()];
+    dayCounts[name] = (dayCounts[name] || 0) + 1;
+  });
+  const peakDay = Object.entries(dayCounts).sort((a,b) => b[1]-a[1])[0];
+
+  // Peak time
+  const timeCounts = {};
+  bookings.forEach(b => { timeCounts[b.slot] = (timeCounts[b.slot] || 0) + 1; });
+  const peakTime = Object.entries(timeCounts).sort((a,b) => b[1]-a[1])[0];
+
+  // First vs review
+  const firstCount = bookings.filter(b => b.visitType === 'first').length;
+  const reviewCount = bookings.filter(b => b.visitType === 'review').length;
+  const firstPct = total > 0 ? Math.round((firstCount/total)*100) : 0;
+
+  panel.innerHTML = `
+    <div class="analytics-grid">
+      <div class="an-box green">
+        <div class="an-icon">✅</div>
+        <div class="an-num">${toArabicNum(attended)}</div>
+        <div class="an-label">حضروا فعلاً</div>
+      </div>
+      <div class="an-box orange">
+        <div class="an-icon">⏳</div>
+        <div class="an-num">${toArabicNum(upcoming)}</div>
+        <div class="an-label">قادمون</div>
+      </div>
+      <div class="an-box red">
+        <div class="an-icon">❌</div>
+        <div class="an-num">${toArabicNum(cancelled)}</div>
+        <div class="an-label">ملغية</div>
+      </div>
+    </div>
+
+    <div class="attendance-bar-wrap">
+      <div class="bar-label-row">
+        <span class="bar-title">نسبة الحضور</span>
+        <span class="bar-pct">${toArabicNum(attendRate)}٪</span>
+      </div>
+      <div class="attendance-bar">
+        <div class="attendance-bar-fill" style="width:${attendRate}%"></div>
+      </div>
+    </div>
+
+    <div class="attendance-bar-wrap" style="margin-bottom:10px">
+      <div class="bar-label-row">
+        <span class="bar-title">نسبة مرضى جدد</span>
+        <span class="bar-pct">${toArabicNum(firstPct)}٪</span>
+      </div>
+      <div class="attendance-bar">
+        <div class="attendance-bar-fill" style="width:${firstPct}%;background:linear-gradient(90deg,#f39c12,#e67e22)"></div>
+      </div>
+    </div>
+
+    <div class="peak-row">
+      <div class="peak-box">
+        <div class="peak-box-label">📅 أكثر يوم إقبالاً</div>
+        <div class="peak-box-val">${peakDay ? peakDay[0] + ' (' + toArabicNum(peakDay[1]) + ')' : '—'}</div>
+      </div>
+      <div class="peak-box">
+        <div class="peak-box-label">🕐 الوقت المفضل</div>
+        <div class="peak-box-val">${peakTime ? peakTime[0] : '—'}</div>
+      </div>
+    </div>
+  `;
+
+  // Animate bar after render
+  setTimeout(() => {
+    document.querySelectorAll('.attendance-bar-fill').forEach(el => {
+      const w = el.style.width;
+      el.style.width = '0%';
+      requestAnimationFrame(() => { el.style.width = w; });
+    });
+  }, 50);
+}
+
+// ===================== EVENT DELEGATION =====================
+document.addEventListener('click', function(e) {
+  const btn = e.target.closest('[data-action]');
+  if (!btn) return;
+  const action = btn.dataset.action;
+  const id = btn.dataset.id;
+  if (action === 'attend') updateStatus(id, 'attended');
+  else if (action === 'cancel') updateStatus(id, 'cancelled');
+  else if (action === 'restore') updateStatus(id, 'upcoming');
+  else if (action === 'delete') askDelete(id, btn.dataset.name);
+});
+
+// Close admin on overlay click
+document.getElementById('adminOverlay').addEventListener('click', function(e) {
+  if (e.target === this) closeAdmin();
+});
+
+document.getElementById('confirmModal').addEventListener('click', function(e) {
+  if (e.target === this) closeConfirm();
+});
+
+// Close pin modal on overlay click
+document.getElementById('pinModal').addEventListener('click', function(e) {
+  if (e.target === this) closePinModal();
+});
+
+// Keyboard support for PIN
+document.addEventListener('keydown', function(e) {
+  if (!document.getElementById('pinModal').classList.contains('open')) return;
+  if (e.key >= '0' && e.key <= '9') pinKey(e.key);
+  if (e.key === 'Backspace') pinDel();
+  if (e.key === 'Escape') closePinModal();
+});
+
+
+// ===================== QUIZ =====================
+let quizAnswers = {1: null, 2: null, 3: null};
+
+function toggleQuizInline() {
+  const panel = document.getElementById('quizInline');
+  const btn = document.getElementById('quizToggleBtn');
+  const open = panel.classList.toggle('open');
+  btn.classList.toggle('open', open);
+}
+
+function quizSelect(btn, q) {
+  btn.closest('.quiz-options').querySelectorAll('.quiz-opt').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  quizAnswers[q] = btn.textContent.trim();
+}
+
+function collectQuiz() {
+  // read current state of quiz at booking time
+  const notes = (document.getElementById('quizNotes')?.value || '').trim();
+  const hasAnswer = quizAnswers[1] || quizAnswers[2] || quizAnswers[3] || notes;
+  if (!hasAnswer) return null;
+  return { ...quizAnswers, notes: notes || null };
+}
+
+function resetQuiz() {
+  quizAnswers = {1: null, 2: null, 3: null};
+  document.querySelectorAll('.quiz-opt').forEach(b => b.classList.remove('selected'));
+  const notes = document.getElementById('quizNotes');
+  if (notes) notes.value = '';
+  const panel = document.getElementById('quizInline');
+  const btn = document.getElementById('quizToggleBtn');
+  if (panel) panel.classList.remove('open');
+  if (btn) btn.classList.remove('open');
+}
+
+// Initialize
+loadBookings();
+updateRemindBadge();
+renderDates();
+</script>
+</body>
+</html>

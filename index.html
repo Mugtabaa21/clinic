@@ -1135,8 +1135,9 @@
   .attendance-bar-fill {
     height: 100%;
     border-radius: 50px;
+    max-width: 100%;
     background: linear-gradient(90deg, var(--accent), var(--primary-light));
-    transition: width 0.8s cubic-bezier(0.34,1.2,0.64,1);
+    transition: width 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 
   .peak-row {
@@ -1876,7 +1877,7 @@
       </div>
       <div class="booking-summary" id="bookingPreviewSummary" style="margin-bottom:20px;"></div>
       <button id="confirmBookingBtn" class="btn btn-primary" onclick="confirmBooking()">
-        <span id="confirmBtnContent">✅ إنهاء الحجز</span>
+        <span id="confirmBtnContent">🏥 احجز الآن</span>
       </button>
       <button class="btn btn-secondary" onclick="backToStep2()">
         → تعديل الموعد
@@ -2020,7 +2021,6 @@
       <div class="admin-tabs">
         <button class="tab-btn active" onclick="switchTab('all',this)">📋 الكل</button>
         <button class="tab-btn" onclick="switchTab('tomorrow',this)">📆 الغد</button>
-        <button class="tab-btn" onclick="switchTab('attended',this)">✅ حضر</button>
         <button class="tab-btn" onclick="switchTab('first',this)">أول مرة</button>
         <button class="tab-btn" onclick="switchTab('review',this)">مراجعة</button>
       </div>
@@ -2097,6 +2097,9 @@ let visitType = null;
 let pinInput = '';
 let _bookingCounter = 0;
 
+// Cumulative stats — survive individual booking deletions
+let stats = { totalEver: 0, attendedEver: 0, cancelledEver: 0, firstEver: 0, reviewEver: 0 };
+
 // ===================== HELPERS =====================
 function saveBookings() {
   try { localStorage.setItem('clinic_bookings', JSON.stringify(bookings)); } catch(e) {}
@@ -2110,6 +2113,16 @@ function saveClosedDays() {
 function loadClosedDays() {
   try { closedDays = JSON.parse(localStorage.getItem('clinic_closed_days') || '[]'); } catch(e) { closedDays = []; }
 }
+function saveStats() {
+  try { localStorage.setItem('clinic_stats', JSON.stringify(stats)); } catch(e) {}
+}
+function loadStats() {
+  try {
+    const s = JSON.parse(localStorage.getItem('clinic_stats') || 'null');
+    if (s) stats = s;
+  } catch(e) {}
+}
+
 function isDayClosed(dateStr) {
   return closedDays.some(c => c.date === dateStr);
 }
@@ -2193,6 +2206,7 @@ function selectVisit(type) {
   visitType = type;
   document.getElementById('vFirst').classList.toggle('selected', type === 'first');
   document.getElementById('vReview').classList.toggle('selected', type === 'review');
+  document.getElementById('visitErr').classList.remove('show');
 }
 
 function goToStep1() {
@@ -2310,6 +2324,7 @@ function selectDate(dateStr) {
   selectedDate = dateStr;
   selectedSlot = null;
   document.getElementById('step2Btns').style.display = 'none';
+  document.getElementById('slotsCard').style.display = 'none';
   renderDates();
   renderSlots();
 }
@@ -2317,6 +2332,7 @@ function selectDate(dateStr) {
 function renderSlots() {
   const card = document.getElementById('slotsCard');
   const container = document.getElementById('slotsContainer');
+  if (!selectedDate) { card.style.display = 'none'; return; }
   card.style.display = '';
   container.innerHTML = '';
 
@@ -2388,7 +2404,7 @@ function confirmBooking() {
   // Hard guard: re-verify the selected date is still in the future at save time
   if (!selectedDate || !selectedSlot || isPastOrToday(selectedDate)) {
     btn.disabled = false;
-    content.innerHTML = '✅ إنهاء الحجز';
+    content.innerHTML = '🏥 احجز الآن';
     backToStep2();
     return;
   }
@@ -2397,7 +2413,7 @@ function confirmBooking() {
   const slotAlreadyTaken = bookings.some(b => b.date === selectedDate && b.slot === selectedSlot && (!b.status || b.status === 'upcoming'));
   if (slotAlreadyTaken) {
     btn.disabled = false;
-    content.innerHTML = '✅ إنهاء الحجز';
+    content.innerHTML = '🏥 احجز الآن';
     alert('⚠️ عذراً، هذا الوقت تم حجزه للتو من شخص آخر. يرجى اختيار وقت آخر.');
     backToStep2();
     renderSlots();
@@ -2425,6 +2441,11 @@ function confirmBooking() {
     };
     bookings.push(booking);
     saveBookings();
+    // Cumulative stats
+    stats.totalEver++;
+    if (booking.visitType === 'first') stats.firstEver++;
+    else stats.reviewEver++;
+    saveStats();
 
     document.getElementById('step3').style.display = 'none';
     document.getElementById('step4').style.display = '';
@@ -2447,7 +2468,7 @@ function confirmBooking() {
 
     // Reset button state for next use
     btn.disabled = false;
-    content.innerHTML = '✅ إنهاء الحجز';
+    content.innerHTML = '🏥 احجز الآن';
   }, 800);
 }
 
@@ -2494,6 +2515,11 @@ function newBooking() {
   resetQuiz();
   document.getElementById('vFirst').classList.remove('selected');
   document.getElementById('vReview').classList.remove('selected');
+  // Clear any lingering slot/date highlights and hide slots card
+  document.querySelectorAll('.slot').forEach(s => s.classList.remove('selected'));
+  document.querySelectorAll('.date-card').forEach(d => d.classList.remove('selected'));
+  document.getElementById('slotsCard').style.display = 'none';
+  document.getElementById('step2Btns') && (document.getElementById('step2Btns').style.display = 'none');
   document.getElementById('step3').style.display = 'none';
   document.getElementById('step4').style.display = 'none';
   document.getElementById('step1').style.display = '';
@@ -2590,8 +2616,17 @@ function clearDateFilter() {
 function updateStatus(id, status) {
   const idx = bookings.findIndex(b => b.id === id);
   if (idx === -1) return;
+  const prev = bookings[idx].status || 'upcoming';
   bookings[idx].status = status;
   saveBookings();
+  // Update cumulative stats (only count new transitions, not reversals)
+  if (status === 'attended' && prev !== 'attended') {
+    stats.attendedEver++;
+    saveStats();
+  } else if (status === 'cancelled' && prev !== 'cancelled') {
+    stats.cancelledEver++;
+    saveStats();
+  }
   renderAdmin();
   // Also refresh slots in main page if open
   if (selectedDate) renderSlots();
@@ -2685,13 +2720,17 @@ function renderAdmin() {
     const visitLabel = b.visitType === 'first' ? 'أول مرة' : 'مراجعة';
     const visitClass = b.visitType === 'first' ? 'tag-first' : 'tag-review';
 
-    const attendBtn = status !== 'attended'
-      ? `<button class="act-btn btn-attend" data-action="attend" data-id="${b.id}">✅ سجّل حضور</button>`
-      : `<div style="padding:12px;text-align:center;font-size:13px;font-weight:700;color:var(--success);background:#eafaf1;border-radius:50px;">✅ حضر</div>`;
+    // Show attend button only in tabs where it makes sense (not all/tomorrow)
+    const hideAttend = adminTab === 'all' || adminTab === 'tomorrow';
+    const attendBtn = status === 'attended'
+      ? `<div style="padding:12px;text-align:center;font-size:13px;font-weight:700;color:var(--success);background:#eafaf1;border-radius:50px;">✅ حضر</div>`
+      : hideAttend
+        ? ''
+        : `<button class="act-btn btn-attend" data-action="attend" data-id="${b.id}">✅ سجّل حضور</button>`;
 
-    const cancelBtn = status !== 'cancelled'
+    const cancelBtn = status === 'upcoming'
       ? `<button class="act-btn btn-cancel-status" data-action="cancel" data-id="${b.id}">⛔ إلغاء</button>` : '';
-    const restoreBtn = status !== 'upcoming'
+    const restoreBtn = status === 'cancelled'
       ? `<button class="act-btn btn-restore" data-action="restore" data-id="${b.id}">↩️ استعادة</button>` : '';
     const deleteBtn = `<button class="act-btn btn-delete" data-action="delete" data-id="${b.id}" data-name="${b.name.replace(/"/g,'&quot;')}">🗑️ حذف</button>`;
 
@@ -2832,14 +2871,14 @@ function renderAnalytics() {
   const panel = document.getElementById('analyticsPanel');
   if (!analyticsOpen) return;
 
-  const total = bookings.length;
-  const attended = bookings.filter(b => b.status === 'attended').length;
-  const cancelled = bookings.filter(b => b.status === 'cancelled').length;
-  const upcoming = total - attended - cancelled;
-  const attendRate = total > 0 ? Math.round((attended / total) * 100) : 0;
-  const cancelRate = total > 0 ? Math.round((cancelled / total) * 100) : 0;
+  // Use cumulative stats so deleting a booking doesn't affect history
+  const total = stats.totalEver;
+  const attended = stats.attendedEver;
+  const cancelled = stats.cancelledEver;
+  const upcoming = bookings.filter(b => !b.status || b.status === 'upcoming').length;
+  const attendRate = total > 0 ? Math.min(100, Math.round((attended / total) * 100)) : 0;
 
-  // Peak day
+  // Peak day — still from live bookings (best we can do without full history)
   const dayCounts = {};
   const dayNames = ['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
   bookings.forEach(b => {
@@ -2854,10 +2893,9 @@ function renderAnalytics() {
   bookings.forEach(b => { timeCounts[b.slot] = (timeCounts[b.slot] || 0) + 1; });
   const peakTime = Object.entries(timeCounts).sort((a,b) => b[1]-a[1])[0];
 
-  // First vs review
-  const firstCount = bookings.filter(b => b.visitType === 'first').length;
-  const reviewCount = bookings.filter(b => b.visitType === 'review').length;
-  const firstPct = total > 0 ? Math.round((firstCount/total)*100) : 0;
+  // First vs review — cumulative
+  const firstCount = stats.firstEver;
+  const firstPct = total > 0 ? Math.min(100, Math.round((firstCount / total) * 100)) : 0;
 
   panel.innerHTML = `
     <div class="analytics-grid">
@@ -2888,15 +2926,6 @@ function renderAnalytics() {
       </div>
     </div>
 
-    <div class="attendance-bar-wrap" style="margin-bottom:10px">
-      <div class="bar-label-row">
-        <span class="bar-title">نسبة مرضى جدد</span>
-        <span class="bar-pct">${toArabicNum(firstPct)}٪</span>
-      </div>
-      <div class="attendance-bar">
-        <div class="attendance-bar-fill" style="width:${firstPct}%;background:linear-gradient(90deg,#f39c12,#e67e22)"></div>
-      </div>
-    </div>
 
     <div class="peak-row">
       <div class="peak-box">
@@ -3089,6 +3118,7 @@ function updateClosedDaysBadge() {
 // Initialize
 loadBookings();
 loadClosedDays();
+loadStats();
 updateRemindBadge();
 updateClosedDaysBadge();
 renderDates();
@@ -3229,11 +3259,14 @@ function confirmReset() {
   // Wipe everything
   bookings = [];
   closedDays = [];
+  stats = { totalEver: 0, attendedEver: 0, cancelledEver: 0, firstEver: 0, reviewEver: 0 };
   analyticsOpen = false;
   saveBookings();
   saveClosedDays();
+  saveStats();
   localStorage.removeItem('clinic_bookings');
   localStorage.removeItem('clinic_closed_days');
+  localStorage.removeItem('clinic_stats');
   // Reset analytics UI
   const analyticsPanel = document.getElementById('analyticsPanel');
   const analyticsBtn = document.getElementById('analyticsToggle');

@@ -1506,6 +1506,67 @@
     color: white;
   }
 
+  .btn-export-reset {
+    background: linear-gradient(135deg, #6c3483, #8e44ad);
+    color: white;
+  }
+
+  /* RESET CONFIRM MODAL */
+  .reset-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    z-index: 5000;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(4px);
+  }
+  .reset-modal.open { display: flex; }
+  .reset-box {
+    background: white;
+    border-radius: 22px;
+    padding: 32px 28px;
+    text-align: center;
+    width: 320px;
+    max-width: 92vw;
+    box-shadow: 0 16px 60px rgba(0,0,0,0.3);
+    animation: fadeUp 0.3s ease;
+  }
+  .reset-box .ri { font-size: 52px; display: block; margin-bottom: 12px; }
+  .reset-box h4 { font-size: 20px; font-weight: 900; color: var(--text); margin-bottom: 8px; }
+  .reset-box p { font-size: 14px; color: var(--text-muted); margin-bottom: 20px; line-height: 1.6; }
+  .reset-pin-label { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 8px; text-align: right; }
+  .reset-pin-input {
+    width: 100%;
+    padding: 12px 16px;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 20px;
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    text-align: center;
+    letter-spacing: 6px;
+    outline: none;
+    margin-bottom: 8px;
+    transition: border 0.2s;
+  }
+  .reset-pin-input:focus { border-color: #8e44ad; }
+  .reset-pin-err { font-size: 13px; color: var(--danger); font-weight: 700; min-height: 18px; margin-bottom: 16px; }
+  .reset-btns { display: flex; gap: 10px; }
+  .reset-yes {
+    flex: 1; padding: 13px; border: none; border-radius: 50px;
+    font-family: 'Tajawal', sans-serif; font-size: 15px; font-weight: 800;
+    background: #8e44ad; color: white; cursor: pointer;
+    box-shadow: 0 4px 14px rgba(142,68,173,0.4);
+    transition: all 0.2s;
+  }
+  .reset-no {
+    flex: 1; padding: 13px; border: none; border-radius: 50px;
+    font-family: 'Tajawal', sans-serif; font-size: 15px; font-weight: 800;
+    background: #eef2f7; color: var(--text); cursor: pointer;
+    transition: all 0.2s;
+  }
+
   /* CANCEL BOOKING MODAL */
   .cancel-modal {
     display: none;
@@ -1651,6 +1712,9 @@
     .btn-export-pdf:hover { opacity: 0.88; transform: translateY(-1px); }
     .cancel-search-btn:hover { background: var(--primary-light); }
     .cancel-confirm-btn:hover { transform: translateY(-1px); }
+    .btn-export-reset:hover { opacity: 0.88; transform: translateY(-1px); }
+    .reset-yes:hover { background: #6c3483; transform: translateY(-1px); }
+    .reset-no:hover { background: var(--border); }
   }
 
 </style>
@@ -1949,6 +2013,7 @@
       <div class="export-row">
         <button class="btn-export btn-export-excel" onclick="exportExcel()">📊 تصدير Excel</button>
         <button class="btn-export btn-export-pdf" onclick="exportPDF()">🖨️ طباعة / PDF</button>
+        <button class="btn-export btn-export-reset" onclick="openResetModal()">🗑️ إعادة تعيين</button>
       </div>
 
       <!-- TABS -->
@@ -1968,6 +2033,21 @@
 </div>
 
 <!-- CONFIRM DELETE -->
+<div class="reset-modal" id="resetModal">
+  <div class="reset-box">
+    <span class="ri">⚠️</span>
+    <h4>إعادة تعيين كاملة</h4>
+    <p>سيتم حذف <strong>جميع الحجوزات</strong> والإحصائيات والأيام المغلقة نهائياً.<br>هذا الإجراء لا يمكن التراجع عنه.</p>
+    <div class="reset-pin-label">أدخل رمز الدخول للتأكيد</div>
+    <input class="reset-pin-input" id="resetPinInput" type="password" maxlength="4" placeholder="••••" oninput="resetPinErr('')">
+    <div class="reset-pin-err" id="resetPinErr"></div>
+    <div class="reset-btns">
+      <button class="reset-yes" onclick="confirmReset()">🗑️ إعادة تعيين</button>
+      <button class="reset-no" onclick="closeResetModal()">إلغاء</button>
+    </div>
+  </div>
+</div>
+
 <div class="confirm-modal" id="confirmModal">
   <div class="confirm-box">
     <span class="ci">🗑️</span>
@@ -3119,6 +3199,93 @@ function doPatientCancel() {
 
 // Allow opening cancel modal from URL hash (for WA link)
 if (location.hash === '#cancel') openCancelModal();
+
+// ===================== RESET =====================
+function openResetModal() {
+  document.getElementById('resetPinInput').value = '';
+  document.getElementById('resetPinErr').textContent = '';
+  document.getElementById('resetModal').classList.add('open');
+  document.body.classList.add('no-scroll');
+  setTimeout(() => document.getElementById('resetPinInput').focus(), 100);
+}
+
+function closeResetModal() {
+  document.getElementById('resetModal').classList.remove('open');
+  document.body.classList.remove('no-scroll');
+}
+
+function resetPinErr(msg) {
+  document.getElementById('resetPinErr').textContent = msg;
+}
+
+function confirmReset() {
+  const pin = document.getElementById('resetPinInput').value.trim();
+  if (pin !== PIN) {
+    resetPinErr('❌ رمز الدخول غير صحيح');
+    document.getElementById('resetPinInput').value = '';
+    document.getElementById('resetPinInput').focus();
+    return;
+  }
+  // Wipe everything
+  bookings = [];
+  closedDays = [];
+  analyticsOpen = false;
+  saveBookings();
+  saveClosedDays();
+  localStorage.removeItem('clinic_bookings');
+  localStorage.removeItem('clinic_closed_days');
+  // Reset analytics UI
+  const analyticsPanel = document.getElementById('analyticsPanel');
+  const analyticsBtn = document.getElementById('analyticsToggle');
+  if (analyticsPanel) analyticsPanel.classList.remove('open');
+  if (analyticsBtn) analyticsBtn.classList.remove('open');
+  // Re-render admin
+  renderAdmin();
+  updateRemindBanner();
+  updateRemindBadge();
+  updateClosedDaysBadge();
+  // Also refresh booking page calendar
+  renderDates();
+  // Show success message inside the modal, then close
+  const box = document.querySelector('#resetModal .reset-box');
+  box.innerHTML = `
+    <span class="ri">✅</span>
+    <h4 style="color:var(--success)">تمت إعادة التعيين</h4>
+    <p style="margin-bottom:0">تم مسح جميع البيانات بنجاح.<br>العيادة جاهزة من جديد.</p>
+  `;
+  setTimeout(() => {
+    closeResetModal();
+    // Restore modal content for next use
+    box.innerHTML = `
+      <span class="ri">⚠️</span>
+      <h4>إعادة تعيين كاملة</h4>
+      <p>سيتم حذف <strong>جميع الحجوزات</strong> والإحصائيات والأيام المغلقة نهائياً.<br>هذا الإجراء لا يمكن التراجع عنه.</p>
+      <div class="reset-pin-label">أدخل رمز الدخول للتأكيد</div>
+      <input class="reset-pin-input" id="resetPinInput" type="password" maxlength="4" placeholder="••••" oninput="resetPinErr('')">
+      <div class="reset-pin-err" id="resetPinErr"></div>
+      <div class="reset-btns">
+        <button class="reset-yes" onclick="confirmReset()">🗑️ إعادة تعيين</button>
+        <button class="reset-no" onclick="closeResetModal()">إلغاء</button>
+      </div>
+    `;
+    // Re-bind the overlay close and keyboard listeners to new elements
+    document.getElementById('resetPinInput')?.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') confirmReset();
+      if (e.key === 'Escape') closeResetModal();
+    });
+  }, 2000);
+}
+
+// Close reset modal on overlay click
+document.getElementById('resetModal').addEventListener('click', function(e) {
+  if (e.target === this) closeResetModal();
+});
+
+// Keyboard: Enter confirms reset
+document.getElementById('resetPinInput').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') confirmReset();
+  if (e.key === 'Escape') closeResetModal();
+});
 </script>
 </body>
 </html>

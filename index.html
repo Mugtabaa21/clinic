@@ -33,6 +33,19 @@
     touch-action: manipulation;
   }
 
+  /* Global button centering reset — fixes emoji/text misalignment on iOS & all browsers */
+  button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 1;
+    -webkit-appearance: none;
+    appearance: none;
+    box-sizing: border-box;
+  }
+
   body {
     font-family: 'Tajawal', sans-serif;
     background: var(--bg);
@@ -536,7 +549,8 @@
 
   .btn {
     width: 100%;
-    padding: 18px;
+    padding: 0 18px;
+    min-height: 58px;
     font-family: 'Tajawal', sans-serif;
     font-size: 21px;
     font-weight: 800;
@@ -548,6 +562,7 @@
     align-items: center;
     justify-content: center;
     gap: 10px;
+    line-height: 1;
   }
   .btn-primary {
     background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
@@ -742,7 +757,8 @@
     flex-wrap: wrap;
   }
   .tab-btn {
-    padding: 10px 18px;
+    padding: 0 18px;
+    min-height: 40px;
     border: none;
     border-radius: 50px;
     background: #eef2f7;
@@ -855,6 +871,7 @@
     flex-direction: row;
     gap: 8px;
     align-items: stretch;
+    min-height: 44px;
   }
   .bc-primary-actions .act-btn {
     flex: 1;
@@ -872,8 +889,8 @@
     border-radius: 50px;
     width: 48px;
     min-width: 48px;
-    height: auto;
     min-height: 44px;
+    height: 100%;
     font-size: 22px;
     letter-spacing: 1px;
     cursor: pointer;
@@ -886,9 +903,11 @@
     box-shadow: 0 2px 6px rgba(0,0,0,0.08);
     align-self: stretch;
     line-height: 1;
+    padding: 0;
   }
   .act-btn {
-    padding: 12px 14px;
+    padding: 0 14px;
+    min-height: 44px;
     border-radius: 50px;
     font-family: 'Tajawal', sans-serif;
     font-size: 14px;
@@ -945,7 +964,8 @@
   .confirm-btns { display: flex; gap: 10px; }
   .confirm-btns button {
     flex: 1;
-    padding: 14px;
+    padding: 0 14px;
+    min-height: 52px;
     border: none;
     border-radius: 50px;
     font-family: 'Tajawal', sans-serif;
@@ -954,6 +974,10 @@
     cursor: pointer;
     transition: all 0.2s;
     box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
   }
   .confirm-btns button:active { transform: scale(0.96); }
   .confirm-yes { background: var(--danger); color: white; box-shadow: 0 4px 14px rgba(231,76,60,0.4); }
@@ -1002,7 +1026,8 @@
     margin-bottom: 14px;
   }
   .key-btn {
-    padding: 16px;
+    padding: 0 16px;
+    min-height: 56px;
     font-family: 'Tajawal', sans-serif;
     font-size: 22px;
     font-weight: 800;
@@ -1202,7 +1227,7 @@
     .visit-option .v-title { font-size: 15px; }
 
     /* MAIN BUTTON */
-    .btn { font-size: 18px; padding: 16px; }
+    .btn { font-size: 18px; min-height: 52px; padding: 0 16px; }
 
     /* DATE CARDS */
     .date-card { flex: 0 0 74px; padding: 12px 4px; border-radius: 14px; }
@@ -1245,7 +1270,7 @@
       padding-bottom: 4px;
     }
     .admin-tabs::-webkit-scrollbar { display: none; }
-    .tab-btn { padding: 9px 14px; font-size: 13px; flex-shrink: 0; }
+    .tab-btn { padding: 0 14px; min-height: 36px; font-size: 13px; flex-shrink: 0; }
 
     /* SEARCH */
     .admin-search { font-size: 14px; padding: 11px 16px; }
@@ -1255,14 +1280,14 @@
     .remind-banner-title { font-size: 14px; }
     .remind-row { padding: 8px 10px; }
     .remind-row-name { font-size: 13px; }
-    .btn-remind-wa { font-size: 12px; padding: 7px 11px; }
+    .btn-remind-wa { font-size: 12px; padding: 0 11px; min-height: 34px; }
 
     /* BOOKING CARDS */
     .booking-card { padding: 13px; border-radius: 14px; }
     .bc-name { font-size: 15px; }
     .bc-tag { font-size: 11px; padding: 4px 10px; }
-    .act-btn { font-size: 13px; padding: 10px 10px; }
-    .btn-more { width: 42px; min-width: 42px; font-size: 18px; }
+    .act-btn { font-size: 13px; padding: 0 10px; min-height: 40px; }
+    .btn-more { width: 42px; min-width: 42px; font-size: 18px; padding: 0; }
 
     /* ANALYTICS */
     .analytics-grid { grid-template-columns: 1fr 1fr; }
@@ -1271,7 +1296,7 @@
 
     /* PIN MODAL */
     .pin-box { width: 92vw; padding: 28px 18px; }
-    .key-btn { padding: 14px; font-size: 20px; }
+    .key-btn { padding: 0; min-height: 52px; font-size: 20px; }
     .confirm-box { width: 88vw; padding: 24px 18px; }
   }
 
@@ -1315,7 +1340,8 @@
     gap: 8px;
   }
   .quiz-opt {
-    padding: 9px 16px;
+    padding: 0 16px;
+    min-height: 36px;
     border: 2px solid var(--border);
     border-radius: 50px;
     font-family: 'Tajawal', sans-serif;
@@ -1326,12 +1352,16 @@
     cursor: pointer;
     transition: all 0.18s;
     line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
   }
   .quiz-opt.selected { background: var(--primary); border-color: var(--primary); color: white; }
   .quiz-submit {
     width: 100%;
     margin-top: 8px;
-    padding: 15px;
+    padding: 0 15px;
+    min-height: 52px;
     background: linear-gradient(135deg, var(--primary), var(--primary-light));
     color: white;
     border: none;
@@ -1342,6 +1372,10 @@
     cursor: pointer;
     transition: all 0.2s;
     box-shadow: 0 4px 16px rgba(26,82,118,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
   }
   .quiz-done {
     text-align: center;
@@ -1416,7 +1450,8 @@
   /* QUIZ TOGGLE IN FORM */
   .quiz-toggle-btn {
     width: 100%;
-    padding: 14px 20px;
+    padding: 0 20px;
+    min-height: 52px;
     background: #f0f6ff;
     border: 2px solid var(--primary-pale);
     border-radius: 50px;
@@ -1430,6 +1465,7 @@
     justify-content: space-between;
     transition: all 0.2s;
     margin-bottom: 0;
+    line-height: 1;
   }
   .quiz-toggle-btn.open { border-radius: 18px 18px 0 0; border-bottom-color: transparent; }
   .quiz-toggle-btn .qtarrow { transition: transform 0.25s; font-size: 12px; }
@@ -1484,7 +1520,8 @@
   .btn-export {
     flex: 1;
     min-width: 120px;
-    padding: 11px 16px;
+    padding: 0 16px;
+    min-height: 44px;
     border: none;
     border-radius: 50px;
     font-family: 'Tajawal', sans-serif;
@@ -1497,6 +1534,7 @@
     gap: 6px;
     transition: all 0.2s;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    line-height: 1;
   }
   .btn-export-excel {
     background: linear-gradient(135deg, #1d6f42, #27ae60);
@@ -1555,17 +1593,19 @@
   .reset-pin-err { font-size: 13px; color: var(--danger); font-weight: 700; min-height: 18px; margin-bottom: 16px; }
   .reset-btns { display: flex; gap: 10px; }
   .reset-yes {
-    flex: 1; padding: 13px; border: none; border-radius: 50px;
+    flex: 1; padding: 0 13px; min-height: 48px; border: none; border-radius: 50px;
     font-family: 'Tajawal', sans-serif; font-size: 15px; font-weight: 800;
     background: #8e44ad; color: white; cursor: pointer;
     box-shadow: 0 4px 14px rgba(142,68,173,0.4);
     transition: all 0.2s;
+    display: flex; align-items: center; justify-content: center; line-height: 1;
   }
   .reset-no {
-    flex: 1; padding: 13px; border: none; border-radius: 50px;
+    flex: 1; padding: 0 13px; min-height: 48px; border: none; border-radius: 50px;
     font-family: 'Tajawal', sans-serif; font-size: 15px; font-weight: 800;
     background: #eef2f7; color: var(--text); cursor: pointer;
     transition: all 0.2s;
+    display: flex; align-items: center; justify-content: center; line-height: 1;
   }
 
   /* CANCEL BOOKING MODAL */
@@ -1612,7 +1652,8 @@
   }
   .cancel-search-row input:focus { border-color: var(--primary-light); }
   .cancel-search-btn {
-    padding: 13px 18px;
+    padding: 0 18px;
+    min-height: 50px;
     background: var(--primary);
     color: white;
     border: none;
@@ -1623,6 +1664,10 @@
     cursor: pointer;
     white-space: nowrap;
     transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
   }
   .cancel-result {
     background: var(--bg);
@@ -1639,7 +1684,8 @@
   .cancel-err.show { display: block; }
   .cancel-confirm-btn {
     width: 100%;
-    padding: 15px;
+    padding: 0 15px;
+    min-height: 52px;
     background: linear-gradient(135deg, var(--danger), #c0392b);
     color: white;
     border: none;
@@ -1652,8 +1698,11 @@
     box-shadow: 0 4px 16px rgba(231,76,60,0.35);
     margin-bottom: 10px;
     display: none;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
   }
-  .cancel-confirm-btn.show { display: block; }
+  .cancel-confirm-btn.show { display: flex; }
   .cancel-done {
     background: #eafaf1;
     border-radius: 14px;
@@ -1729,7 +1778,7 @@
   <h1>عيادة المسالك البولية</h1>
   <p>احجز موعدك بسهولة • مساءً ٤:٠٠ - ٩:٠٠</p>
   <div style="margin-top:10px;">
-    <button onclick="openCancelModal()" style="background:rgba(255,255,255,0.15);border:2px solid rgba(255,255,255,0.35);color:white;padding:8px 20px;border-radius:50px;font-family:'Tajawal',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.25)'" onmouseout="this.style.background='rgba(255,255,255,0.15)'">
+    <button onclick="openCancelModal()" style="background:rgba(255,255,255,0.15);border:2px solid rgba(255,255,255,0.35);color:white;padding:0 20px;min-height:38px;border-radius:50px;font-family:'Tajawal',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all 0.2s;display:inline-flex;align-items:center;justify-content:center;gap:6px;line-height:1;" onmouseover="this.style.background='rgba(255,255,255,0.25)'" onmouseout="this.style.background='rgba(255,255,255,0.15)'">
       ❌ إلغاء موعدي
     </button>
   </div>
@@ -2720,13 +2769,12 @@ function renderAdmin() {
     const visitLabel = b.visitType === 'first' ? 'أول مرة' : 'مراجعة';
     const visitClass = b.visitType === 'first' ? 'tag-first' : 'tag-review';
 
-    // Show attend button only in tabs where it makes sense (not all/tomorrow)
-    const hideAttend = adminTab === 'all' || adminTab === 'tomorrow';
+    // Show attend button for all upcoming bookings across all tabs
     const attendBtn = status === 'attended'
       ? `<div style="padding:12px;text-align:center;font-size:13px;font-weight:700;color:var(--success);background:#eafaf1;border-radius:50px;">✅ حضر</div>`
-      : hideAttend
-        ? ''
-        : `<button class="act-btn btn-attend" data-action="attend" data-id="${b.id}">✅ سجّل حضور</button>`;
+      : status === 'upcoming'
+        ? `<button class="act-btn btn-attend" data-action="attend" data-id="${b.id}">✅ سجّل حضور</button>`
+        : '';
 
     const cancelBtn = status === 'upcoming'
       ? `<button class="act-btn btn-cancel-status" data-action="cancel" data-id="${b.id}">⛔ إلغاء</button>` : '';

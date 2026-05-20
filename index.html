@@ -33,19 +33,6 @@
     touch-action: manipulation;
   }
 
-  /* Global button centering reset — fixes emoji/text misalignment on iOS & all browsers */
-  button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    vertical-align: middle;
-    line-height: 1;
-    -webkit-appearance: none;
-    appearance: none;
-    box-sizing: border-box;
-  }
-
   body {
     font-family: 'Tajawal', sans-serif;
     background: var(--bg);
@@ -265,7 +252,6 @@
     color: var(--text);
     transition: border 0.2s, box-shadow 0.2s;
     outline: none;
-    -webkit-appearance: none;
     text-align: right;
   }
   input:focus, select:focus {
@@ -549,8 +535,7 @@
 
   .btn {
     width: 100%;
-    padding: 0 18px;
-    min-height: 58px;
+    padding: 18px;
     font-family: 'Tajawal', sans-serif;
     font-size: 21px;
     font-weight: 800;
@@ -562,7 +547,6 @@
     align-items: center;
     justify-content: center;
     gap: 10px;
-    line-height: 1;
   }
   .btn-primary {
     background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
@@ -757,8 +741,7 @@
     flex-wrap: wrap;
   }
   .tab-btn {
-    padding: 0 18px;
-    min-height: 40px;
+    padding: 10px 18px;
     border: none;
     border-radius: 50px;
     background: #eef2f7;
@@ -871,7 +854,6 @@
     flex-direction: row;
     gap: 8px;
     align-items: stretch;
-    min-height: 44px;
   }
   .bc-primary-actions .act-btn {
     flex: 1;
@@ -889,8 +871,8 @@
     border-radius: 50px;
     width: 48px;
     min-width: 48px;
+    height: auto;
     min-height: 44px;
-    height: 100%;
     font-size: 22px;
     letter-spacing: 1px;
     cursor: pointer;
@@ -903,11 +885,9 @@
     box-shadow: 0 2px 6px rgba(0,0,0,0.08);
     align-self: stretch;
     line-height: 1;
-    padding: 0;
   }
   .act-btn {
-    padding: 0 14px;
-    min-height: 44px;
+    padding: 12px 14px;
     border-radius: 50px;
     font-family: 'Tajawal', sans-serif;
     font-size: 14px;
@@ -964,8 +944,7 @@
   .confirm-btns { display: flex; gap: 10px; }
   .confirm-btns button {
     flex: 1;
-    padding: 0 14px;
-    min-height: 52px;
+    padding: 14px;
     border: none;
     border-radius: 50px;
     font-family: 'Tajawal', sans-serif;
@@ -974,10 +953,6 @@
     cursor: pointer;
     transition: all 0.2s;
     box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    line-height: 1;
   }
   .confirm-btns button:active { transform: scale(0.96); }
   .confirm-yes { background: var(--danger); color: white; box-shadow: 0 4px 14px rgba(231,76,60,0.4); }
@@ -1026,8 +1001,7 @@
     margin-bottom: 14px;
   }
   .key-btn {
-    padding: 0 16px;
-    min-height: 56px;
+    padding: 16px;
     font-family: 'Tajawal', sans-serif;
     font-size: 22px;
     font-weight: 800;
@@ -1227,7 +1201,7 @@
     .visit-option .v-title { font-size: 15px; }
 
     /* MAIN BUTTON */
-    .btn { font-size: 18px; min-height: 52px; padding: 0 16px; }
+    .btn { font-size: 18px; padding: 16px; }
 
     /* DATE CARDS */
     .date-card { flex: 0 0 74px; padding: 12px 4px; border-radius: 14px; }
@@ -1270,7 +1244,7 @@
       padding-bottom: 4px;
     }
     .admin-tabs::-webkit-scrollbar { display: none; }
-    .tab-btn { padding: 0 14px; min-height: 36px; font-size: 13px; flex-shrink: 0; }
+    .tab-btn { padding: 9px 14px; font-size: 13px; flex-shrink: 0; }
 
     /* SEARCH */
     .admin-search { font-size: 14px; padding: 11px 16px; }
@@ -1280,14 +1254,14 @@
     .remind-banner-title { font-size: 14px; }
     .remind-row { padding: 8px 10px; }
     .remind-row-name { font-size: 13px; }
-    .btn-remind-wa { font-size: 12px; padding: 0 11px; min-height: 34px; }
+    .btn-remind-wa { font-size: 12px; padding: 7px 11px; }
 
     /* BOOKING CARDS */
     .booking-card { padding: 13px; border-radius: 14px; }
     .bc-name { font-size: 15px; }
     .bc-tag { font-size: 11px; padding: 4px 10px; }
-    .act-btn { font-size: 13px; padding: 0 10px; min-height: 40px; }
-    .btn-more { width: 42px; min-width: 42px; font-size: 18px; padding: 0; }
+    .act-btn { font-size: 13px; padding: 10px 10px; }
+    .btn-more { width: 42px; min-width: 42px; font-size: 18px; }
 
     /* ANALYTICS */
     .analytics-grid { grid-template-columns: 1fr 1fr; }
@@ -1296,7 +1270,7 @@
 
     /* PIN MODAL */
     .pin-box { width: 92vw; padding: 28px 18px; }
-    .key-btn { padding: 0; min-height: 52px; font-size: 20px; }
+    .key-btn { padding: 14px; font-size: 20px; }
     .confirm-box { width: 88vw; padding: 24px 18px; }
   }
 
@@ -1340,8 +1314,7 @@
     gap: 8px;
   }
   .quiz-opt {
-    padding: 0 16px;
-    min-height: 36px;
+    padding: 9px 16px;
     border: 2px solid var(--border);
     border-radius: 50px;
     font-family: 'Tajawal', sans-serif;
@@ -1352,16 +1325,12 @@
     cursor: pointer;
     transition: all 0.18s;
     line-height: 1;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
   }
   .quiz-opt.selected { background: var(--primary); border-color: var(--primary); color: white; }
   .quiz-submit {
     width: 100%;
     margin-top: 8px;
-    padding: 0 15px;
-    min-height: 52px;
+    padding: 15px;
     background: linear-gradient(135deg, var(--primary), var(--primary-light));
     color: white;
     border: none;
@@ -1372,10 +1341,6 @@
     cursor: pointer;
     transition: all 0.2s;
     box-shadow: 0 4px 16px rgba(26,82,118,0.3);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    line-height: 1;
   }
   .quiz-done {
     text-align: center;
@@ -1450,8 +1415,7 @@
   /* QUIZ TOGGLE IN FORM */
   .quiz-toggle-btn {
     width: 100%;
-    padding: 0 20px;
-    min-height: 52px;
+    padding: 14px 20px;
     background: #f0f6ff;
     border: 2px solid var(--primary-pale);
     border-radius: 50px;
@@ -1465,7 +1429,6 @@
     justify-content: space-between;
     transition: all 0.2s;
     margin-bottom: 0;
-    line-height: 1;
   }
   .quiz-toggle-btn.open { border-radius: 18px 18px 0 0; border-bottom-color: transparent; }
   .quiz-toggle-btn .qtarrow { transition: transform 0.25s; font-size: 12px; }
@@ -1520,8 +1483,7 @@
   .btn-export {
     flex: 1;
     min-width: 120px;
-    padding: 0 16px;
-    min-height: 44px;
+    padding: 11px 16px;
     border: none;
     border-radius: 50px;
     font-family: 'Tajawal', sans-serif;
@@ -1534,7 +1496,6 @@
     gap: 6px;
     transition: all 0.2s;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    line-height: 1;
   }
   .btn-export-excel {
     background: linear-gradient(135deg, #1d6f42, #27ae60);
@@ -1593,19 +1554,17 @@
   .reset-pin-err { font-size: 13px; color: var(--danger); font-weight: 700; min-height: 18px; margin-bottom: 16px; }
   .reset-btns { display: flex; gap: 10px; }
   .reset-yes {
-    flex: 1; padding: 0 13px; min-height: 48px; border: none; border-radius: 50px;
+    flex: 1; padding: 13px; border: none; border-radius: 50px;
     font-family: 'Tajawal', sans-serif; font-size: 15px; font-weight: 800;
     background: #8e44ad; color: white; cursor: pointer;
     box-shadow: 0 4px 14px rgba(142,68,173,0.4);
     transition: all 0.2s;
-    display: flex; align-items: center; justify-content: center; line-height: 1;
   }
   .reset-no {
-    flex: 1; padding: 0 13px; min-height: 48px; border: none; border-radius: 50px;
+    flex: 1; padding: 13px; border: none; border-radius: 50px;
     font-family: 'Tajawal', sans-serif; font-size: 15px; font-weight: 800;
     background: #eef2f7; color: var(--text); cursor: pointer;
     transition: all 0.2s;
-    display: flex; align-items: center; justify-content: center; line-height: 1;
   }
 
   /* CANCEL BOOKING MODAL */
@@ -1652,8 +1611,7 @@
   }
   .cancel-search-row input:focus { border-color: var(--primary-light); }
   .cancel-search-btn {
-    padding: 0 18px;
-    min-height: 50px;
+    padding: 13px 18px;
     background: var(--primary);
     color: white;
     border: none;
@@ -1664,10 +1622,6 @@
     cursor: pointer;
     white-space: nowrap;
     transition: all 0.2s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    line-height: 1;
   }
   .cancel-result {
     background: var(--bg);
@@ -1684,8 +1638,7 @@
   .cancel-err.show { display: block; }
   .cancel-confirm-btn {
     width: 100%;
-    padding: 0 15px;
-    min-height: 52px;
+    padding: 15px;
     background: linear-gradient(135deg, var(--danger), #c0392b);
     color: white;
     border: none;
@@ -1698,11 +1651,8 @@
     box-shadow: 0 4px 16px rgba(231,76,60,0.35);
     margin-bottom: 10px;
     display: none;
-    align-items: center;
-    justify-content: center;
-    line-height: 1;
   }
-  .cancel-confirm-btn.show { display: flex; }
+  .cancel-confirm-btn.show { display: block; }
   .cancel-done {
     background: #eafaf1;
     border-radius: 14px;
@@ -1778,7 +1728,7 @@
   <h1>عيادة المسالك البولية</h1>
   <p>احجز موعدك بسهولة • مساءً ٤:٠٠ - ٩:٠٠</p>
   <div style="margin-top:10px;">
-    <button onclick="openCancelModal()" style="background:rgba(255,255,255,0.15);border:2px solid rgba(255,255,255,0.35);color:white;padding:0 20px;min-height:38px;border-radius:50px;font-family:'Tajawal',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all 0.2s;display:inline-flex;align-items:center;justify-content:center;gap:6px;line-height:1;" onmouseover="this.style.background='rgba(255,255,255,0.25)'" onmouseout="this.style.background='rgba(255,255,255,0.15)'">
+    <button onclick="openCancelModal()" style="background:rgba(255,255,255,0.15);border:2px solid rgba(255,255,255,0.35);color:white;padding:8px 20px;border-radius:50px;font-family:'Tajawal',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.25)'" onmouseout="this.style.background='rgba(255,255,255,0.15)'">
       ❌ إلغاء موعدي
     </button>
   </div>
@@ -2138,6 +2088,68 @@ const PIN = '0000';
 const TIME_SLOTS = ['4:00 م','4:45 م','5:30 م','6:15 م','7:00 م','7:45 م','8:30 م'];
 // We'll pick 5 per day based on availability
 
+// ===================== API CONFIG =====================
+// 🔧 Set this to your backend base URL (no trailing slash)
+// Example: 'https://your-clinic-api.onrender.com'
+const API_BASE_URL = 'http://localhost:3000';
+
+// JWT token storage key
+const TOKEN_KEY = 'clinic_jwt';
+
+/**
+ * apiFetch — authenticated wrapper around fetch()
+ *
+ * @param {string} path      - API path, e.g. '/api/bookings'
+ * @param {object} [options] - Standard fetch options (method, body, etc.)
+ * @returns {Promise<any>}   - Parsed JSON response body
+ * @throws {Error}           - On non-OK HTTP responses or network errors
+ *
+ * Usage examples:
+ *   const data = await apiFetch('/api/stats');
+ *   const result = await apiFetch('/api/bookings', {
+ *     method: 'POST',
+ *     body: JSON.stringify({ name, phone })
+ *   });
+ */
+async function apiFetch(path, options = {}) {
+  const token = localStorage.getItem(TOKEN_KEY);
+
+  const headers = {
+    'Content-Type': 'application/json',
+    ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
+    ...(options.headers || {})
+  };
+
+  const response = await fetch(`${API_BASE_URL}${path}`, {
+    ...options,
+    headers
+  });
+
+  if (!response.ok) {
+    let errorMsg = `خطأ ${response.status}`;
+    try {
+      const errBody = await response.json();
+      if (errBody && errBody.message) errorMsg = errBody.message;
+    } catch (_) {}
+    const err = new Error(errorMsg);
+    err.status = response.status;
+    throw err;
+  }
+
+  // 204 No Content — return null instead of trying to parse JSON
+  if (response.status === 204) return null;
+
+  return response.json();
+}
+
+/**
+ * getToken / setToken / clearToken — JWT lifecycle helpers
+ */
+function getToken()        { return localStorage.getItem(TOKEN_KEY); }
+function setToken(token)   { localStorage.setItem(TOKEN_KEY, token); }
+function clearToken()      { localStorage.removeItem(TOKEN_KEY); }
+function isLoggedIn()      { return !!getToken(); }
+
 let bookings = [];
 let closedDays = []; // [{date: 'YYYY-MM-DD', reason: '...'}]
 let selectedDate = null;
@@ -2197,12 +2209,34 @@ function getBookingsForDate(dateStr) {
   return bookings.filter(b => b.date === dateStr);
 }
 
-function getAvailableSlots(dateStr) {
-  // Only upcoming bookings block a slot; attended/cancelled free it up
-  const booked = getBookingsForDate(dateStr)
-    .filter(b => !b.status || b.status === 'upcoming')
-    .map(b => b.slot);
-  return TIME_SLOTS.map(t => ({ time: t, taken: booked.includes(t) }));
+// ── Part 4: slots cache to avoid redundant API round-trips ──
+const _slotsCache = {};
+
+async function fetchSlotsFromAPI(dateStr) {
+  if (_slotsCache[dateStr]) return _slotsCache[dateStr];
+  try {
+    const res = await fetch(`${API_BASE_URL}/api/slots?date=${encodeURIComponent(dateStr)}`);
+    if (!res.ok) throw new Error('slots fetch failed');
+    const data = await res.json();
+    // data: { closed: bool, slots: [{slot, available}] }
+    const result = {
+      closed: data.closed,
+      slots: (data.slots || []).slice(0, SLOTS_PER_DAY).map(s => ({
+        time: s.slot,
+        taken: !s.available
+      }))
+    };
+    _slotsCache[dateStr] = result;
+    return result;
+  } catch (e) {
+    console.error('fetchSlotsFromAPI error:', e);
+    return { closed: false, slots: [] };
+  }
+}
+
+function invalidateSlotsCache(dateStr) {
+  // Call this after a booking is made/cancelled so the cache is refreshed
+  delete _slotsCache[dateStr];
 }
 
 function localDateStr(d) {
@@ -2273,7 +2307,7 @@ function clearErr(id, input) {
   input.classList.remove('invalid');
 }
 
-function goToStep2() {
+async function goToStep2() {
   const name = document.getElementById('patientName').value.trim();
   const phone = document.getElementById('patientPhone').value.trim();
   const age = document.getElementById('patientAge').value.trim();
@@ -2304,18 +2338,21 @@ function goToStep2() {
   }
   if (!valid) { return; }
 
-  // ── منع الحجز المتكرر: نفس الرقم لا يحجز أكثر من موعد واحد قادم ──
-  const dupBookings = bookings.filter(b =>
-    b.phone === phone &&
-    (!b.status || b.status === 'upcoming')
-  );
-  if (dupBookings.length > 0) {
-    const d = dupBookings[0];
-    const phoneErrEl = document.getElementById('phoneErr');
-  phoneErrEl.textContent = `⚠️ هذا الرقم لديه حجز قائم بالفعل (${formatDate(d.date)} — ${d.slot}). يُرجى إلغاء الحجز القديم أولاً.`;
-    document.getElementById('phoneErr').classList.add('show');
-    phoneInput.classList.add('invalid');
-    return;
+  // ── منع الحجز المتكرر: تحقق من API إن كان الرقم لديه حجز قائم ──
+  try {
+    const dupRes = await fetch(`${API_BASE_URL}/api/bookings/find-by-phone?phone=${encodeURIComponent(phone)}`);
+    if (dupRes.ok) {
+      const d = await dupRes.json();
+      const phoneErrEl = document.getElementById('phoneErr');
+      phoneErrEl.textContent = `⚠️ هذا الرقم لديه حجز قائم بالفعل (${formatDate(d.date)} — ${d.slot}). يُرجى إلغاء الحجز القديم أولاً.`;
+      document.getElementById('phoneErr').classList.add('show');
+      phoneInput.classList.add('invalid');
+      return;
+    }
+    // 404 = no active booking → proceed normally
+  } catch (e) {
+    // Network error — allow to proceed; server will re-validate on submit
+    console.warn('duplicate-check failed, proceeding:', e);
   }
 
   document.getElementById('step1').style.display = 'none';
@@ -2325,7 +2362,7 @@ function goToStep2() {
 }
 
 // ===================== STEP 2 =====================
-function renderDates() {
+async function renderDates() {
   const container = document.getElementById('datesContainer');
   const dates = generateDateRange();
   const todayStr = localDateStr(new Date());
@@ -2360,10 +2397,10 @@ function renderDates() {
     container.appendChild(div);
   });
 
-  if (selectedDate) renderSlots();
+  if (selectedDate) await renderSlots();
 }
 
-function selectDate(dateStr) {
+async function selectDate(dateStr) {
   // Re-check at click time in case the page was open across midnight
   if (isPastOrToday(dateStr)) {
     renderDates(); // refresh the calendar to drop the now-invalid date
@@ -2375,21 +2412,33 @@ function selectDate(dateStr) {
   document.getElementById('step2Btns').style.display = 'none';
   document.getElementById('slotsCard').style.display = 'none';
   renderDates();
-  renderSlots();
+  await renderSlots();
 }
 
-function renderSlots() {
+async function renderSlots() {
   const card = document.getElementById('slotsCard');
   const container = document.getElementById('slotsContainer');
   if (!selectedDate) { card.style.display = 'none'; return; }
   card.style.display = '';
+
+  // Show loading indicator while fetching
+  container.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:18px;color:#888;font-size:15px;">⏳ جاري تحميل المواعيد...</div>';
+
+  const { closed, slots } = await fetchSlotsFromAPI(selectedDate);
+
   container.innerHTML = '';
 
-  const slots = getAvailableSlots(selectedDate);
-  // Show only first 5 slots
-  const displaySlots = slots.slice(0, SLOTS_PER_DAY);
+  if (closed) {
+    container.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:18px;color:#c0392b;font-size:15px;">🔒 هذا اليوم مغلق</div>';
+    return;
+  }
 
-  displaySlots.forEach(s => {
+  if (!slots.length) {
+    container.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:18px;color:#888;font-size:15px;">لا تواجد مواعيد متاحة</div>';
+    return;
+  }
+
+  slots.forEach(s => {
     const div = document.createElement('div');
     div.className = 'slot' + (s.taken ? ' taken' : '') + (s.time === selectedSlot ? ' selected' : '');
     div.innerHTML = `<span class="slot-time">${s.time}</span><span class="slot-status">${s.taken ? 'محجوز' : 'متاح'}</span>`;
@@ -2441,7 +2490,7 @@ function backToStep2() {
   updateStepBar(2);
 }
 
-function confirmBooking() {
+async function confirmBooking() {
   const btn = document.getElementById('confirmBookingBtn');
   const content = document.getElementById('confirmBtnContent');
 
@@ -2458,71 +2507,84 @@ function confirmBooking() {
     return;
   }
 
-  // ── حماية من الحجز المزدوج: تحقق أن الوقت لا يزال متاحاً عند الحفظ ──
-  const slotAlreadyTaken = bookings.some(b => b.date === selectedDate && b.slot === selectedSlot && (!b.status || b.status === 'upcoming'));
-  if (slotAlreadyTaken) {
-    btn.disabled = false;
-    content.innerHTML = '🏥 احجز الآن';
-    alert('⚠️ عذراً، هذا الوقت تم حجزه للتو من شخص آخر. يرجى اختيار وقت آخر.');
-    backToStep2();
-    renderSlots();
-    return;
-  }
+  const name = document.getElementById('patientName').value.trim();
+  const phone = document.getElementById('patientPhone').value.trim();
+  const age = document.getElementById('patientAge').value.trim();
+  const num = generateBookingNumber();
 
-  // Simulate a brief async save (replace with real API call if needed)
-  setTimeout(() => {
-    const name = document.getElementById('patientName').value.trim();
-    const phone = document.getElementById('patientPhone').value.trim();
-    const age = document.getElementById('patientAge').value.trim();
-    const num = generateBookingNumber();
+  const payload = {
+    id: generateId(),
+    display_num: num,
+    name,
+    phone,
+    age,
+    visit_type: visitType,
+    date: selectedDate,
+    slot: selectedSlot
+  };
 
-    const booking = {
-      id: generateId(),
-      displayNum: num,
-      name,
-      phone,
-      age,
-      visitType,
-      date: selectedDate,
-      slot: selectedSlot,
-      createdAt: new Date().toISOString(),
-      quiz: collectQuiz()
+  try {
+    const res = await fetch(`${API_BASE_URL}/api/bookings`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+
+    if (res.status === 409) {
+      const err = await res.json();
+      alert('⚠️ ' + (err.error || 'هذا الوقت تم حجزه للتو من شخص آخر. يرجى اختيار وقت آخر.'));
+      backToStep2();
+      return;
+    }
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.error || `خطأ ${res.status}`);
+    }
+
+    const booking = await res.json();
+
+    // Store for WhatsApp confirmation
+    window._lastBookingId = booking.id;
+    window._lastBooking = {
+      id: booking.id,
+      displayNum: booking.display_num,
+      name: booking.name,
+      phone: booking.phone,
+      visitType: booking.visit_type,
+      date: booking.date,
+      slot: booking.slot
     };
-    bookings.push(booking);
-    saveBookings();
-    // Cumulative stats
-    stats.totalEver++;
-    if (booking.visitType === 'first') stats.firstEver++;
-    else stats.reviewEver++;
-    saveStats();
 
     document.getElementById('step3').style.display = 'none';
     document.getElementById('step4').style.display = '';
     updateStepBar(4);
 
-    document.getElementById('bookingNumDisplay').textContent = booking.displayNum;
+    document.getElementById('bookingNumDisplay').textContent = booking.display_num;
 
-    const vLabel = visitType === 'first' ? 'فحص أول مرة' : 'مراجعة';
+    const vLabel = booking.visit_type === 'first' ? 'فحص أول مرة' : 'مراجعة';
     const summaryHTML = `
-      <div class="summary-row"><span class="summary-label">الاسم</span><span class="summary-value">${name}</span></div>
-      <div class="summary-row"><span class="summary-label">الجوال</span><span class="summary-value">${phone}</span></div>
-      <div class="summary-row"><span class="summary-label">العمر</span><span class="summary-value">${age} سنة</span></div>
+      <div class="summary-row"><span class="summary-label">الاسم</span><span class="summary-value">${booking.name}</span></div>
+      <div class="summary-row"><span class="summary-label">الجوال</span><span class="summary-value">${booking.phone}</span></div>
+      <div class="summary-row"><span class="summary-label">العمر</span><span class="summary-value">${booking.age} سنة</span></div>
       <div class="summary-row"><span class="summary-label">نوع الزيارة</span><span class="summary-value">${vLabel}</span></div>
-      <div class="summary-row"><span class="summary-label">التاريخ</span><span class="summary-value">${formatDate(selectedDate)}</span></div>
-      <div class="summary-row"><span class="summary-label">الوقت</span><span class="summary-value">${selectedSlot}</span></div>
+      <div class="summary-row"><span class="summary-label">التاريخ</span><span class="summary-value">${formatDate(booking.date)}</span></div>
+      <div class="summary-row"><span class="summary-label">الوقت</span><span class="summary-value">${booking.slot}</span></div>
     `;
     document.getElementById('bookingSummaryInline').innerHTML = summaryHTML;
-    window._lastBookingId = booking.id;
+    invalidateSlotsCache(booking.date); // ← Part 4: bust cache so next visit fetches fresh slots
     window.scrollTo(0, 0);
 
-    // Reset button state for next use
+  } catch (err) {
+    alert('❌ حدث خطأ أثناء الحجز: ' + err.message);
+  } finally {
     btn.disabled = false;
     content.innerHTML = '🏥 احجز الآن';
-  }, 800);
+  }
 }
 
 function sendWAConfirmation() {
-  const booking = bookings.find(b => b.id === window._lastBookingId);
+  const booking = window._lastBooking;
   if (!booking) return;
   const waPhone = booking.phone.replace(/^0/, '964');
   const vLabel = booking.visitType === 'first' ? 'فحص أول مرة' : 'مراجعة';
@@ -2616,16 +2678,60 @@ function updatePinDots() {
     document.getElementById('d' + i).className = 'pin-dot' + (i < pinInput.length ? ' filled' : '');
   }
 }
-function checkPin() {
-  if (pinInput === PIN) {
+async function checkPin() {
+  const enteredPin = pinInput;
+
+  // Disable keypad visually while request is in flight
+  document.querySelectorAll('.key-btn').forEach(b => b.disabled = true);
+  document.getElementById('pinError').textContent = '';
+
+  // ── If no backend is configured yet, fall back to local PIN check ──
+  if (!API_BASE_URL) {
+    document.querySelectorAll('.key-btn').forEach(b => b.disabled = false);
+    if (enteredPin === PIN) {
+      closePinModal();
+      openAdmin();
+    } else {
+      document.getElementById('pinError').textContent = 'رمز خاطئ، حاول مجدداً';
+      pinInput = '';
+      updatePinDots();
+      setTimeout(() => document.getElementById('pinError').textContent = '', 2000);
+    }
+    return;
+  }
+
+  // ── API login ──
+  try {
+    const data = await apiFetch('/api/auth/login', {
+      method: 'POST',
+      body: JSON.stringify({ pin: enteredPin })
+    });
+
+    // Backend returns { token: '...' }
+    if (data && data.token) {
+      setToken(data.token);
+    }
+
     closePinModal();
     openAdmin();
-  } else {
-    document.getElementById('pinError').textContent = 'رمز خاطئ، حاول مجدداً';
+  } catch (err) {
     pinInput = '';
     updatePinDots();
-    setTimeout(() => document.getElementById('pinError').textContent = '', 2000);
+    if (err.status === 401) {
+      document.getElementById('pinError').textContent = 'رمز خاطئ، حاول مجدداً';
+    } else {
+      document.getElementById('pinError').textContent = 'تعذّر الاتصال بالخادم، حاول مجدداً';
+    }
+    setTimeout(() => document.getElementById('pinError').textContent = '', 2500);
+  } finally {
+    document.querySelectorAll('.key-btn').forEach(b => b.disabled = false);
   }
+}
+
+// ── Admin logout — clears JWT and closes the panel ──
+function adminLogout() {
+  clearToken();
+  closeAdmin();
 }
 
 // ===================== ADMIN =====================
@@ -2678,7 +2784,7 @@ function updateStatus(id, status) {
   }
   renderAdmin();
   // Also refresh slots in main page if open
-  if (selectedDate) renderSlots();
+  if (selectedDate) { invalidateSlotsCache(selectedDate); renderSlots(); }
 
   // Re-render analytics if open
   if (analyticsOpen) renderAnalytics();
@@ -2699,7 +2805,7 @@ function confirmDelete() {
   saveBookings();
   closeConfirm();
   renderAdmin();
-  if (selectedDate) { renderDates(); renderSlots(); }
+  if (selectedDate) { invalidateSlotsCache(selectedDate); renderDates(); renderSlots(); }
 }
 
 function renderAdmin() {
@@ -2769,12 +2875,13 @@ function renderAdmin() {
     const visitLabel = b.visitType === 'first' ? 'أول مرة' : 'مراجعة';
     const visitClass = b.visitType === 'first' ? 'tag-first' : 'tag-review';
 
-    // Show attend button for all upcoming bookings across all tabs
+    // Show attend button only in tabs where it makes sense (not all/tomorrow)
+    const hideAttend = adminTab === 'all' || adminTab === 'tomorrow';
     const attendBtn = status === 'attended'
       ? `<div style="padding:12px;text-align:center;font-size:13px;font-weight:700;color:var(--success);background:#eafaf1;border-radius:50px;">✅ حضر</div>`
-      : status === 'upcoming'
-        ? `<button class="act-btn btn-attend" data-action="attend" data-id="${b.id}">✅ سجّل حضور</button>`
-        : '';
+      : hideAttend
+        ? ''
+        : `<button class="act-btn btn-attend" data-action="attend" data-id="${b.id}">✅ سجّل حضور</button>`;
 
     const cancelBtn = status === 'upcoming'
       ? `<button class="act-btn btn-cancel-status" data-action="cancel" data-id="${b.id}">⛔ إلغاء</button>` : '';

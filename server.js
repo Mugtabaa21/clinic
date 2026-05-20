@@ -12,28 +12,29 @@ const resetRouter      = require('./routes/reset');
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+  origin: '*',
+  methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
 app.use(express.json());
 
-// FIX: rate limit public booking endpoint — prevents slot spam
-// Allows 10 booking attempts per IP per hour
 const bookingLimiter = rateLimit({
-  windowMs: 60 * 60 * 1000, // 1 hour
+  windowMs: 60 * 60 * 1000,
   max: 10,
   message: { error: 'عدد كبير من المحاولات، يرجى المحاولة لاحقاً' },
   standardHeaders: true,
   legacyHeaders: false,
 });
 
-// Routes
 app.use('/api/auth',        authRouter);
-app.use('/api/bookings',    bookingLimiter, bookingsRouter); // rate limit applied here
+app.use('/api/bookings',    bookingLimiter, bookingsRouter);
 app.use('/api/closed-days', closedDaysRouter);
 app.use('/api/stats',       statsRouter);
 app.use('/api/slots',       slotsRouter);
 app.use('/api/reset',       resetRouter);
 
-// Health check
 app.get('/', (req, res) => res.json({ status: 'Clinic API running ✅' }));
 
 const PORT = process.env.PORT || 3000;
